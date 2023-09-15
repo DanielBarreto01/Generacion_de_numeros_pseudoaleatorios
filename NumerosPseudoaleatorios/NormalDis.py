@@ -4,8 +4,10 @@ import random
 import Methods
 
 class NormalDistributionGenerator:
+    
         
     def __init__(self, root):
+        self.methodos_instacnce=Methods.Methods()
           # Calcula el ancho y alto de la pantalla
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
@@ -56,37 +58,36 @@ class NormalDistributionGenerator:
 
         
 
-    def generate_random_numbers(self):
-        # Obtener valores ingresados por el usuario
-        min_value = float(self.min_entry.get())
-        max_value = float(self.max_entry.get())
-        quantity = int(self.quantity_entry.get())
-
-        # Generar números aleatorios en el rango especificado
-        random_numbers = [round(random.uniform(min_value, max_value), 2) for _ in range(quantity)]
+    def paint_table(self):
+        # Elimina las filas de la tabla
+        for row in self.table.get_children():
+            self.table.delete(row)
 
         # Elimina las filas de la tabla
-        self.table.delete(*self.table.get_children())
-        methodos_instacnce=Methods
+        for row in self.table.get_children():
+            self.table.item(row, column=1, values="")
+            self.table.item(row, column=2, values="")
         # Mostrar los números en la tabla
-        for i, num in methodos_instacnce.numeros:
-            self.table.insert("", "end", values=(i, num, ""))
+        for num in self.methodos_instacnce.numeros:
+            
+            self.table.insert("", "end", values=(num, ""))
+        print(self.methodos_instacnce.numeros)
 
 
     def select_methods(self,method):
         print("entre")
         if method == "Cuadrados Medios":
-            Methods.Methods.cuadrados_medios(self, self.quantity_entry.get())
-
-            self.generate_random_numbers()
-        elif method == "congruenciales":
+            self.methodos_instacnce.cuadrados_medios(self.quantity_entry.get())
+            self.paint_table()
+        else:
+            print("No se ha seleccionado un método")
+        """elif method == "congruenciales":
             self.congruenciales()
         elif method == "distribución uniforme":
             self.distribucion_uniforme()
         elif method == "distribución normal":
-            self.distribucion_normal()
-        else:
-            print("No se ha seleccionado un método")
+            self.distribucion_normal()"""
+        
         
 
 
