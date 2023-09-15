@@ -15,7 +15,8 @@ class NormalDistributionGenerator:
         self.quantity_label = ttk.Label(root, text="Cantidad de Números:")
         self.quantity_entry = ttk.Entry(root)
 
-        # Botón para generar números aleatorios
+        self.quantity_label = ttk.Label(root, text="Metodo de Generacion")
+        self.quantity_entry = ttk.Combobox(root, values=["Cuadrados Medios", "congruenciales", "distribución uniforme","distribución normal"])
         self.generate_button = ttk.Button(root, text="Generar", command=self.generate_random_numbers)
 
         # Crear tabla para mostrar los números
