@@ -3,11 +3,14 @@ import numpy as np
 import time
 
 class Methods:
+   
+
     def __init__(self):
-        self.numeros = []
+        self.numeros = []    
 
     def cuadrados_medios(self,iteraciones):
         tam1 = len(str(7435))
+        print(iteraciones)
         print("Cantidad de dígitos: ", tam1)
         iteraciones = int(iteraciones) 
         numero1 = int(time.time())
@@ -16,9 +19,9 @@ class Methods:
                 snumero2 = str(numero2)
                 tam2 = len(snumero2)
                 primerc = int((tam2 - tam1) / 2)
-                self.numeros = snumero2[primerc:primerc+tam1]
-                print("{}.  {}".format(i, self.numeros))
-        return self.numeros
+                self.numeros.append(snumero2[primerc:primerc+tam1])
+                print(self.numeros, "   eueu")
+               # print("{}.  {}".format(i, self.numeros))
 # Crear una instancia de la clase Methods
 
     def distribucion_normal(self,a,b,n):
