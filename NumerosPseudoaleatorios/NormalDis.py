@@ -4,6 +4,19 @@ import random
 
 class NormalDistributionGenerator:
     def __init__(self, root):
+          # Calcula el ancho y alto de la pantalla
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
+          # Calcula el ancho y alto de la pantalla
+        window_width = 800  # Cambia esto al ancho deseado
+        window_height = 600
+
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
+
+        # Configura la geometría de la ventana
+        root.geometry(f"{window_width}x{window_height}+{x}+{y}")
         self.root = root
         self.root.title("Generador de Distribución Normal")
 
@@ -15,23 +28,28 @@ class NormalDistributionGenerator:
         self.quantity_label = ttk.Label(root, text="Cantidad de Números:")
         self.quantity_entry = ttk.Entry(root)
 
-        self.quantity_label = ttk.Label(root, text="Metodo de Generacion")
-        self.quantity_entry = ttk.Combobox(root, values=["Cuadrados Medios", "congruenciales", "distribución uniforme","distribución normal"])
+        self.metodo = ttk.Label(root, text="Metodo de Generacion")
+        self.metodo_metod = ttk.Combobox(root, values=["Cuadrados Medios", "congruenciales", "distribución uniforme","distribución normal"])
+        self.metodo_metod.set("Cuadrados Medios")
         self.generate_button = ttk.Button(root, text="Generar", command=self.generate_random_numbers)
 
         # Crear tabla para mostrar los números
-        self.table = ttk.Treeview(root, columns=("Número Aleatorio"))
-        self.table.heading("#1", text="Número Aleatorio")
+        self.table = ttk.Treeview(root, columns=("i", "Ri", "Ni"))
+        self.table.heading("#1", text="i")
+        self.table.heading("#2", text="Ri")
+        self.table.heading("#3", text="Ni")
 
         # Posicionar elementos en la interfaz
         self.min_label.grid(row=0, column=0)
         self.min_entry.grid(row=0, column=1)
         self.max_label.grid(row=1, column=0)
         self.max_entry.grid(row=1, column=1)
+        self.metodo.grid(row=3, column=0)
         self.quantity_label.grid(row=2, column=0)
         self.quantity_entry.grid(row=2, column=1)
-        self.generate_button.grid(row=3, columnspan=2)
-        self.table.grid(row=4, columnspan=2)
+        self.metodo_metod.grid(row=3, column=1)
+        self.generate_button.grid(row=4, columnspan=4)
+        self.table.grid(row=6, columnspan=4)
 
     def generate_random_numbers(self):
         # Obtener valores ingresados por el usuario
