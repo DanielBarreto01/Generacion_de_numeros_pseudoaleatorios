@@ -81,28 +81,33 @@ class NormalDistributionGenerator:
         for i, num in enumerate(sequential_numbers):
             self.table.insert("", "end", values=("", num, ""))
 
-        
-    
-        
-    def generar_numero(self):
-        
-
-        
-
-        # Elimina las filas de la tabla
-        self.table.delete(*self.table.get_children())
-
-        
-          # Establece el valor en la columna "i" para la fila correspondiente
 
     def init_botton(self):
       #  self.generar_numero()
         self.generate_random_numbers()
 
+    def select_methods(self):
+        method = self.metodo_metod.get()
+        if method == "Cuadrados Medios":
+            self.cuadrados_medios()
+        elif method == "congruenciales":
+            self.congruenciales()
+        elif method == "distribución uniforme":
+            self.distribucion_uniforme()
+        elif method == "distribución normal":
+            self.distribucion_normal()
+        else:
+            print("No se ha seleccionado un método")
+        
+        
+        
+
+
 def main():
     root = tk.Tk()
     app = NormalDistributionGenerator(root)
     root.mainloop()
+
 
 if __name__ == "__main__":
     main()
