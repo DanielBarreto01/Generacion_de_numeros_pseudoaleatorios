@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 import random
+import Methods
 
 class NormalDistributionGenerator:
+        
     def __init__(self, root):
           # Calcula el ancho y alto de la pantalla
         screen_width = root.winfo_screenwidth()
@@ -30,8 +32,9 @@ class NormalDistributionGenerator:
 
         self.metodo = ttk.Label(root, text="Metodo de Generacion")
         self.metodo_metod = ttk.Combobox(root, values=["Cuadrados Medios", "congruenciales", "distribución uniforme","distribución normal"])
-        self.metodo_metod.set("Cuadrados Medios")
-        self.generate_button = ttk.Button(root, text="Generar", command=self.generate_random_numbers)
+    
+        self.generate_button = ttk.Button(root, text="Generar", command=lambda: self.select_methods(self.metodo_metod.get()))
+
 
         # Crear tabla para mostrar los números
         self.table = ttk.Treeview(root, columns=("i", "Ri", "Ni"))
@@ -64,32 +67,18 @@ class NormalDistributionGenerator:
 
         # Elimina las filas de la tabla
         self.table.delete(*self.table.get_children())
-
+        methodos_instacnce=Methods
         # Mostrar los números en la tabla
-        for i, num in enumerate(random_numbers):
+        for i, num in methodos_instacnce.numeros:
             self.table.insert("", "end", values=(i, num, ""))
 
-        # Genera números aleatorios desde 1 hasta quantity_entry
-        sequential_numbers = list(range(1 + 1, quantity + 1))
 
-
-        # Limpia la columna 1 de la tabla
-        for row in self.table.get_children():
-            self.table.item(row, column=1, values="")
-
-        # Agrega los números generados a la columna "i" de la tabla
-        for i, num in enumerate(sequential_numbers):
-            self.table.insert("", "end", values=("", num, ""))
-
-
-    def init_botton(self):
-      #  self.generar_numero()
-        self.generate_random_numbers()
-
-    def select_methods(self):
-        method = self.metodo_metod.get()
+    def select_methods(self,method):
+        print("entre")
         if method == "Cuadrados Medios":
-            self.cuadrados_medios()
+            Methods.Methods.cuadrados_medios(self, self.quantity_entry.get())
+
+            self.generate_random_numbers()
         elif method == "congruenciales":
             self.congruenciales()
         elif method == "distribución uniforme":
@@ -98,8 +87,6 @@ class NormalDistributionGenerator:
             self.distribucion_normal()
         else:
             print("No se ha seleccionado un método")
-        
-        
         
 
 
