@@ -35,9 +35,9 @@ class NormalDistributionGenerator:
 
         # Crear tabla para mostrar los números
         self.table = ttk.Treeview(root, columns=("i", "Ri", "Ni"))
-        self.table.heading("#1", text="i")
-        self.table.heading("#2", text="Ri")
-        self.table.heading("#3", text="Ni")
+        self.table.heading("#0", text="i")
+        self.table.heading("#1", text="Ri")
+        self.table.heading("#2", text="Ni")
 
         # Posicionar elementos en la interfaz
         self.min_label.grid(row=0, column=0)
@@ -51,6 +51,8 @@ class NormalDistributionGenerator:
         self.generate_button.grid(row=4, columnspan=4)
         self.table.grid(row=6, columnspan=4)
 
+        
+
     def generate_random_numbers(self):
         # Obtener valores ingresados por el usuario
         min_value = float(self.min_entry.get())
@@ -60,13 +62,42 @@ class NormalDistributionGenerator:
         # Generar números aleatorios en el rango especificado
         random_numbers = [round(random.uniform(min_value, max_value), 2) for _ in range(quantity)]
 
-        # Limpiar la tabla antes de agregar nuevos datos
-        for row in self.table.get_children():
-            self.table.delete(row)
+        # Elimina las filas de la tabla
+        self.table.delete(*self.table.get_children())
 
         # Mostrar los números en la tabla
-        for num in random_numbers:
-            self.table.insert("", "end", values=(num,))
+        for i, num in enumerate(random_numbers):
+            self.table.insert("", "end", values=(i, num, ""))
+
+        # Genera números aleatorios desde 1 hasta quantity_entry
+        sequential_numbers = list(range(1 + 1, quantity + 1))
+
+
+        # Limpia la columna 1 de la tabla
+        for row in self.table.get_children():
+            self.table.item(row, column=1, values="")
+
+        # Agrega los números generados a la columna "i" de la tabla
+        for i, num in enumerate(sequential_numbers):
+            self.table.insert("", "end", values=("", num, ""))
+
+        
+    
+        
+    def generar_numero(self):
+        
+
+        
+
+        # Elimina las filas de la tabla
+        self.table.delete(*self.table.get_children())
+
+        
+          # Establece el valor en la columna "i" para la fila correspondiente
+
+    def init_botton(self):
+      #  self.generar_numero()
+        self.generate_random_numbers()
 
 def main():
     root = tk.Tk()
