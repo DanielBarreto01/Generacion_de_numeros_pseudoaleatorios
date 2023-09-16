@@ -69,7 +69,7 @@ class Team:
                 most_experienced_archer = archer
         return most_experienced_archer
     
-    """reduce resistencia de arqueros por experiencia."""       #validar 
+    """reduce resistencia de arqueros por experiencia."""       #validarr
     def decrease_resistance_experience(self):
         for archer in self.archers:
             if archer.experience == 0:

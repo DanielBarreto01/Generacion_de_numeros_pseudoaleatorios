@@ -2,20 +2,21 @@ from middle_square import middle_square
 from Gender import Gender
 from Score import Score
 
+
 import random
 
 class Archer:
     def __init__(self, code):
         self.code = code
+        self.generator = middle_square(0,1)
         self.experience = 10
         self.points = 0
+        self.count_luck = 0
+        self.score = None
         self.round_points = 0
         self.won_rounds = 0
         self.won_raffles = 0
         self.consecutive_won_raffle_number_round = -1
-        self.generator = random.Random()
-        self.count_luck = 0
-        self.score = None
         self.initial_resistance = self.generate_resistance()
         self.resistance = self.initial_resistance
         self.luck = self.generate_luck()
@@ -38,7 +39,7 @@ class Archer:
 
     #simula lanzamiento masculino 
     def throwing_male(self):
-        random_val = self.generator.uniform(0, 1)
+        random_val = self.generator.generateNi()
         if 0 < random_val <= 0.2:
             self.score = Score.CENTER
         elif 0.2 < random_val <= 0.53:
@@ -51,7 +52,7 @@ class Archer:
 
     #simula lanzamiento femenio
     def throwing_female(self):
-        random_val = self.generator.uniform(0, 1)
+        random_val = self.generator.generateNi()
         if 0 < random_val <= 0.3:
             self.score = Score.CENTER
         elif 0.3 < random_val <= 0.68:
@@ -81,11 +82,11 @@ class Archer:
 
     # genera genero aleatorio 
     def generate_gender(self):
-        return Gender.MALE if self.generator.uniform(0, 1) >= 0.5 else Gender.FEMALE    # aleatorio iniforme 
+        return Gender.MALE if self.generator.generateNi() >= 0.5 else Gender.FEMALE    # aleatorio iniforme 
     
     # Genera la suerte inicial
     def generate_luck(self):
-        return self.generator.uniform(0, 1) * 2 + 1
+        return self.self.generator.generateNi() * 2 + 1
 
     # Recupera la suerte del arquero                    # no le veo sentido
     def regain_luck(self):          
@@ -93,7 +94,7 @@ class Archer:
 
         # Genera la resistencia inicial
     def generate_resistance(self):
-        return int(self.generator.uniform(0, 1) * (45 - 25 + 1)) + 25
+        return int(self.self.generator.generateNi() * (45 - 25 + 1)) + 25
     
     # Recupera la resistencia despues de cada ronda  (como ajustar genera resistencia de cada ronda )
     def regain_resistance_round(self):
@@ -110,7 +111,7 @@ class Archer:
 
     #genera fatiga 
     def generate_fatigue(self):
-        return int(self.generator.uniform(0, 1) * 2) + 1
+        return int(self.generator.generateNi() * 2) + 1
 
     #aumenta la experiencia 
     def gain_experience(self):

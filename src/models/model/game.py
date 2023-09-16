@@ -95,6 +95,19 @@ class Game:
     def increase_rounds(self):
         self.rounds += 1
 
+    """Obtiene el género del ganador del juego."""
+    def get_winner_gender(self) -> Gender:
+        return self.winnerGender
+    
+    """Obtiene a todos los arqueros de ambos equipos."""
+    def get_archers(self) -> List[Archer]:
+        
+        archers = []
+        for team in self.teams:
+            for archer in team.archers():
+                archers.append(archer)
+        return archers
+
     """Otorga un tiro extra a cada equipo."""
     def give_extra_throwBy_three_throws(self):
         self.teams[0].give_extra_throw_by_three_throws()
@@ -111,14 +124,3 @@ class Game:
         for team in self.teams:
             team.regain_round_points()
 
-    def get_winner_gender(self) -> Gender:
-        """Obtiene el género del ganador del juego."""
-        return self.winnerGender
-
-    def get_archers(self) -> List[Archer]:
-        """Obtiene a todos los arqueros de ambos equipos."""
-        archers = []
-        for team in self.teams:
-            for archer in team.archers():
-                archers.append(archer)
-        return archers
