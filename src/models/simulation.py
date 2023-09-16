@@ -125,13 +125,7 @@ class Simulation:
     def obtain_gender_total_win(self):
         return "FEMALE" if self.obtain_total_win_by_gender().get_gender == 'F' else "MALE"
 
-   """ /**
-    *
-    * obtainGendersByGame String method which gets a message setting the winning
-    * gender per game.
-    *
-    * @return String.
-    */"""
+  #obtainGendersByGame String method which gets a message setting the winning
 
     def obtain_genders_by_game(self):
         genders_by_game_string = ""

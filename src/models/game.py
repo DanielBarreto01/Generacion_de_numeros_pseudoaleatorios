@@ -1,11 +1,11 @@
 from typing import List
-from Team import Team
-from Archer import Archer
-from Gender import Gender
-from Score import Score
+from src.models import team
+from src.models import archer
+from src.models import Gender
+from src.models import score
 
 class Game:
-    def __init__(self, team1: Team, team2: Team):
+    def __init__(self, team1: team, team2: team):
         self.teams = [team1, team2]
         self.rounds = 1
         self.winnerGender = None
@@ -29,7 +29,7 @@ class Game:
 
 
     """Realiza un desempate de arqueros ."""
-    def check_tie(self, a: Archer, b: Archer) -> Archer:
+    def check_tie(self, a: archer, b: archer) -> archer:
         winner = None
         shootA = a.round_points()
         shootB = b.round_points()
@@ -41,12 +41,12 @@ class Game:
         return winner
 
     """Obtiene al arquero individual ganador del juego."""
-    def obtain_individual_winner(self) -> Archer:
+    def obtain_individual_winner(self) -> archer:
         archer_one = self.teams[0].obtain_most_won_rounds_archer()
         archer_thow = self.teams[1].obtain_most_won_rounds_archer()
         return archer_one if archer_one.won_rounds() > archer_thow.won_rounds() else archer_thow
 
-    def obtain_experience_winner(self) -> Archer:
+    def obtain_experience_winner(self) -> archer:
         """Obtiene al arquero más experimentado de los equipos."""
         archer_one = self.teams[0].obtain_most_experienced_archer()
         archer_thow = self.teams[1].obtain_most_experienced_archer()
@@ -63,7 +63,7 @@ class Game:
             teamWinner.increase_won_rounds()
 
     """Obtiene al equipo ganador del juego."""
-    def obtain_team_winner(self) -> Team:
+    def obtain_team_winner(self) -> team:
         scoreTeam1 = self.teams[0].obtain_total_score()
         scoreTeam2 = self.teams[1].obtain_total_score()
         return self.teams[0] if scoreTeam1 > scoreTeam2 else self.teams[1] if scoreTeam1 < scoreTeam2 else None
@@ -72,7 +72,7 @@ class Game:
         self.winnerGender = self.obtain_individual_winner().gender()
 
     """Obtiene al arquero más afortunado de los 2 equipos."""
-    def obtain_most_luck_archer(self) -> Archer:
+    def obtain_most_luck_archer(self) -> archer:
         countLuckArcherTeam1 = self.teams[0].obtain_most_luck_archer()
         countLuckArcherTeam2 = self.teams[1].obtain_most_luck_archer()
         return (
@@ -88,7 +88,7 @@ class Game:
         return self.teams[position].score()
 
     """Obtiene un equipo en una posición específica."""
-    def obtain_team(self, position: int) -> Team:
+    def obtain_team(self, position: int) -> team:
         return self.teams[position]
 
     """Incrementa el número de rondas en 1 unidad."""
@@ -115,7 +115,7 @@ class Game:
         """Obtiene el género del ganador del juego."""
         return self.winnerGender
 
-    def get_archers(self) -> List[Archer]:
+    def get_archers(self) -> List[archer]:
         """Obtiene a todos los arqueros de ambos equipos."""
         archers = []
         for team in self.teams:
