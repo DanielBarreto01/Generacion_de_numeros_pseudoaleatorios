@@ -4,6 +4,7 @@ import random
 import Methods
 from Models.middle_square import Middle_square
 from Models.UniformDis import Uniform
+from Models.Multiplicative import Multiplicative
 
 class NormalDistributionGenerator:
     
@@ -16,8 +17,8 @@ class NormalDistributionGenerator:
         screen_height = root.winfo_screenheight()
 
           # Calcula el ancho y alto de la pantalla
-        window_width = 800  # Cambia esto al ancho deseado
-        window_height = 700
+        window_width = 850  # Cambia esto al ancho deseado
+        window_height = 700 # Cambia esto al alto deseado
 
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
@@ -26,6 +27,7 @@ class NormalDistributionGenerator:
         root.geometry(f"{window_width}x{window_height}+{x}+{y}")
         self.root = root
         self.root.title("Generador de Distribución Normal")
+        self.root.resizable(False, False)
 
         # Crear etiquetas y campos de entrada
         self.min_label = ttk.Label(root, text="Número Mínimo:")
@@ -35,44 +37,61 @@ class NormalDistributionGenerator:
         self.quantity_label = ttk.Label(root, text="Cantidad de Números:")
         self.quantity_entry = ttk.Entry(root)
 
+        self.x_label = ttk.Label(root, text="Valor de X:")
+        self.x_entry = ttk.Entry(root)
+        self.t_label = ttk.Label(root, text="Valor de t:")
+        self.t_entry = ttk.Entry(root)
+        self.g_label = ttk.Label(root, text="Valor de g:")
+        self.g_entry = ttk.Entry(root)
+
         self.metodo = ttk.Label(root, text="Metodo de Generacion")
-        self.metodo_metod = ttk.Combobox(root, values=["Cuadrados Medios", "congruenciales", "Distribución Uniforme","distribución normal"])
+        self.metodo_metod = ttk.Combobox(root, values=["Cuadrados Medios", "Multiplicativo", "Distribución Uniforme","distribución normal"])
     
         self.generate_button = ttk.Button(root, text="Generar", command=lambda: self.select_methods(self.metodo_metod.get()))
 
-
-        # Crear tabla para mostrar los números
-        self.table = ttk.Treeview(root, columns=("i","Ri", "Ni"))
+        self.table = ttk.Treeview(root, columns=("i", "Ri", "Ni"))
         self.table.heading("#0", text="")
         self.table.heading("#1", text="i")
         self.table.heading("#2", text="Ri")
         self.table.heading("#3", text="Ni")
     
-
         self.table.column("#0", width=0, anchor="center")
-        self.table.column("#1", width=280, anchor="center")
-        self.table.column("#2", width=280, anchor="center")
-        self.table.column("#3", width=300, anchor="center")
-    
+        self.table.column("#1", width=265, anchor="center")
+        self.table.column("#2", width=265, anchor="center")
+        self.table.column("#3", width=270, anchor="center")
 
-        # Centrar elementos verticalmente
-        self.min_label.pack()
-        self.min_entry.pack()
-        self.max_label.pack()
-        self.max_entry.pack()
-        self.quantity_label.pack()
-        self.quantity_entry.pack()
-        self.metodo.pack()
-        self.metodo_metod.pack()
-        self.generate_button.pack()
+        self.center_elements()
 
-        # Configurar la tabla
-        self.table.pack()
-        self.table["height"] = 16
+    def center_elements(self):
+        # Centrar todos los elementos en la ventana
+        self.min_label.grid(row=0, column=0, padx=2, pady=4, sticky="e")
+        self.min_entry.grid(row=0, column=1, padx=2, pady=4, sticky="w")
+
+        self.max_label.grid(row=1, column=0, padx=2, pady=5, sticky="e")
+        self.max_entry.grid(row=1, column=1, padx=2, pady=5, sticky="w")
+
+        self.quantity_label.grid(row=2, column=0, padx=2, pady=5, sticky="e")
+        self.quantity_entry.grid(row=2, column=1, padx=2, pady=5, sticky="w")
+
+        # Para las etiquetas y campos adicionales, sigue el mismo patrón
+        self.x_label.grid(row=3, column=0, padx=2, pady=5, sticky="e")
+        self.x_entry.grid(row=3, column=1, padx=2, pady=5, sticky="w")
+
+        self.t_label.grid(row=4, column=0, padx=2, pady=5, sticky="e")
+        self.t_entry.grid(row=4, column=1, padx=2, pady=5, sticky="w")
+
+        self.g_label.grid(row=5, column=0, padx=2, pady=5, sticky="e")
+        self.g_entry.grid(row=5, column=1, padx=2, pady=5, sticky="w")
+
+        self.metodo.grid(row=6, column=0, padx=2, pady=5, sticky="e")
+        self.metodo_metod.grid(row=6, column=1, padx=2, pady=5, sticky="w")
+
+        self.generate_button.grid(row=7, column=0, columnspan=2, padx=10, pady=5)
+
+        self.table.grid(row=8, column=0, columnspan=2, padx=20, pady=5, sticky="nsew")
 
         
         
-
     
     def paint_table(self,list_numbers):
         # Elimina las filas de la tabla
@@ -97,12 +116,13 @@ class NormalDistributionGenerator:
         print(list_numbers, "numeros semilla")
         print(valores_divididos, "valores divididos")
 
-
-
     def select_methods(self,method):
         min_value = int(self.min_entry.get())
         max_value = int(self.max_entry.get())
         quantity_value = int(self.quantity_entry.get())
+        x=int(self.x_entry.get())
+        t=int(self.t_entry.get())
+        g=int(self.g_entry.get())
 
         match method:
             case "Cuadrados Medios":
@@ -113,6 +133,10 @@ class NormalDistributionGenerator:
                 self.uniform_instance = Uniform(quantity_value, min_value, max_value)
                 self.uniform_instance.generate_random()
                 self.paint_table(self.uniform_instance.aleatory)
+            case "Multiplicativo":
+                self.multiplicative_instance = Multiplicative(x, t, g, quantity_value)
+                n=self.multiplicative_instance.get_aleatory()
+                self.paint_table(n)
                 pass
             case _:
                 print("Método no válido")
@@ -121,14 +145,10 @@ class NormalDistributionGenerator:
                 print(min_value, max_value, quantity_value, method)
         print("entre selec metodos")
         
-        
-
-
 def main():
     root = tk.Tk()
     app = NormalDistributionGenerator(root)
     root.mainloop()
-
 
 if __name__ == "__main__":
     main()
