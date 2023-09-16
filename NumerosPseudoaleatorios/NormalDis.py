@@ -14,7 +14,7 @@ class NormalDistributionGenerator:
 
           # Calcula el ancho y alto de la pantalla
         window_width = 800  # Cambia esto al ancho deseado
-        window_height = 600
+        window_height = 700
 
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
@@ -39,24 +39,44 @@ class NormalDistributionGenerator:
 
 
         # Crear tabla para mostrar los números
-        self.table = ttk.Treeview(root, columns=("i", "Ri", "Ni"))
+        self.table = ttk.Treeview(root, columns=("Ri", "Ni"))
         self.table.heading("#0", text="i")
         self.table.heading("#1", text="Ri")
         self.table.heading("#2", text="Ni")
 
-        # Posicionar elementos en la interfaz
-        self.min_label.grid(row=0, column=0)
-        self.min_entry.grid(row=0, column=1)
-        self.max_label.grid(row=1, column=0)
-        self.max_entry.grid(row=1, column=1)
-        self.metodo.grid(row=3, column=0)
-        self.quantity_label.grid(row=2, column=0)
-        self.quantity_entry.grid(row=2, column=1)
-        self.metodo_metod.grid(row=3, column=1)
-        self.generate_button.grid(row=4, columnspan=4)
-        self.table.grid(row=6, columnspan=4)
+        self.table.column("#0", width=100, anchor="center")
+        self.table.column("#1", width=300, anchor="center")
+        self.table.column("#2", width=300, anchor="center")
 
-        
+        # Centrar elementos verticalmente
+        self.min_label.pack()
+        self.min_entry.pack()
+        self.max_label.pack()
+        self.max_entry.pack()
+        self.quantity_label.pack()
+        self.quantity_entry.pack()
+        self.metodo.pack()
+        self.metodo_metod.pack()
+        self.generate_button.pack()
+
+        self.advertence_label = ttk.Label(root, text="", foreground="red", font=("Helvetica", 12))
+        self.advertence_label.pack()
+
+    def show_advertence(self):
+        # Mostrar el aviso
+        self.advertence_label.config(text="Seleccione un método")
+
+        # Configurar temporizador para ocultar el aviso después de 3000 ms (3 segundos)
+        self.hide_advertence_timer = self.root.after(3000, self.hide_advertence)
+
+    def hide_advertence(self):
+        # Ocultar el aviso
+        self.advertence_label.config(text="")
+
+        # Cancelar el temporizador si está en ejecución
+        if self.hide_advertence_timer:
+            self.root.after_cancel(self.hide_advertence_timer)
+
 
     def paint_table(self):
         # Elimina las filas de la tabla
@@ -90,6 +110,7 @@ class NormalDistributionGenerator:
             self.methodos_instacnce.cuadrados_medios(self.quantity_entry.get())
             self.paint_table()
         else:
+            self.show_advertence()
             print("No se ha seleccionado un método")
         """elif method == "congruenciales":
             self.congruenciales()
