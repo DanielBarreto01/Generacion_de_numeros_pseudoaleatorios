@@ -1,8 +1,10 @@
 import random
 
 class Uniform:
-    def __init__(self, quantity):
+    def __init__(self, quantity, min_value=0, max_value=1):
         self.quantity = quantity
+        self.min_value = min_value
+        self.max_value = max_value
         self.aleatory = []
 
     def get_aleatory(self):
@@ -11,11 +13,14 @@ class Uniform:
 
     def generate_random(self):
         while self.quantity > 0:
-            self.aleatory.append(random.random())
+            random_number = random.uniform(self.min_value, self.max_value)
+            self.aleatory.append(random_number)
             self.quantity -= 1
 
-# Ejemplo de uso
 if __name__ == "__main__":
-    uniform_generator = Uniform(10)  # Cambia 10 por la cantidad deseada
+    min_value = 0  
+    max_value = 10  
+    quantity = 10  
+    uniform_generator = Uniform(quantity, min_value, max_value)
     aleatory_numbers = uniform_generator.get_aleatory()
     print(aleatory_numbers)
