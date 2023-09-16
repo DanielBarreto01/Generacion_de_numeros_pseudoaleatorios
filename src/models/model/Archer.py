@@ -7,20 +7,21 @@ import random
 class Archer:
     def __init__(self, code):
         self.code = code
-        self.generator = random.Random()
-        self.gender = self.generate_gender()
-        self.initial_resistance = self.generate_resistance()
-        self.resistance = self.initial_resistance
         self.experience = 10
-        self.luck = self.generate_luck()
         self.points = 0
         self.round_points = 0
         self.won_rounds = 0
         self.won_raffles = 0
         self.consecutive_won_raffle_number_round = -1
+        self.generator = random.Random()
         self.count_luck = 0
         self.score = None
+        self.initial_resistance = self.generate_resistance()
+        self.resistance = self.initial_resistance
+        self.luck = self.generate_luck()
+        self.gender = self.generate_gender()
 
+    #simula los lanzamientos de un aqruero
     def launch(self):
         launch = 0
         while self.resistance > 0:
@@ -31,9 +32,11 @@ class Archer:
         self.regain_resistance_round()
         self.regain_luck()
 
+    #realiza lanzamiento segun el genero
     def individual_launch(self):
         return self.throwing_male() if self.gender == 'MALE' else self.throwing_female()
 
+    #simula lanzamiento masculino 
     def throwing_male(self):
         random_val = self.generator.uniform(0, 1)
         if 0 < random_val <= 0.2:
@@ -46,6 +49,7 @@ class Archer:
             self.score = Score.ERROR
         return self.score
 
+    #simula lanzamiento femenio
     def throwing_female(self):
         random_val = self.generator.uniform(0, 1)
         if 0 < random_val <= 0.3:
@@ -58,9 +62,11 @@ class Archer:
             self.score = Score.ERROR
         return self.score
 
+    #aumenta el numero de rondas ganadas 
     def increase_won_rounds(self):
         self.won_rounds += 1
 
+    #aumenta numero de lanzamoientos ganados consecutivo
     def increase_won_raffles(self, round_num):
         if self.consecutive_won_raffle_number_round == -1:
             self.consecutive_won_raffle_number_round = round_num
@@ -72,40 +78,54 @@ class Archer:
             self.won_raffles = 1
             self.consecutive_won_raffle_number_round = round_num
 
+
+    # genera genero aleatorio 
     def generate_gender(self):
-        return 'MALE' if self.generator.uniform(0, 1) >= 0.5 else 'FEMALE'
-
-    def generate_resistance(self):
-        return int(self.generator.uniform(0, 1) * (45 - 25 + 1)) + 25
-
+        return Gender.MALE if self.generator.uniform(0, 1) >= 0.5 else Gender.FEMALE    # aleatorio iniforme 
+    
+    # Genera la suerte inicial
     def generate_luck(self):
         return self.generator.uniform(0, 1) * 2 + 1
 
-    def regain_luck(self):
+    # Recupera la suerte del arquero                    # no le veo sentido
+    def regain_luck(self):          
         self.luck = self.generate_luck()
 
+        # Genera la resistencia inicial
+    def generate_resistance(self):
+        return int(self.generator.uniform(0, 1) * (45 - 25 + 1)) + 25
+    
+    # Recupera la resistencia despues de cada ronda  (como ajustar genera resistencia de cada ronda )
     def regain_resistance_round(self):
-        self.resistance = self.initial_resistance - self.generate_fatigue()
+        self.resistance = self.initial_resistance - self.generate_fatigue()      # rraro ?
         self.initial_resistance = self.resistance
 
-    def regain_resistance(self):
-        self.resistance = self.initial_resistance
-
-    def generate_fatigue(self):
-        return int(self.generator.uniform(0, 1) * 2) + 1
-
-    def gain_experience(self):
-        self.experience += 3
-
+     #reduce reseistencia con base a experiencia
     def decrease_resistance_by_experience(self):
         self.resistance -= 1
 
+    #recupera resistencia 
+    def regain_resistance(self):
+        self.resistance = self.initial_resistance
+
+    #genera fatiga 
+    def generate_fatigue(self):
+        return int(self.generator.uniform(0, 1) * 2) + 1
+
+    #aumenta la experiencia 
+    def gain_experience(self):
+        self.experience += 3
+
+
+    #restablece puntos de ronda
     def regain_round_points(self):
         self.round_points = 0
 
+    #aumenta la suerte 
     def increase_count_luck(self):
         self.count_luck += 1
 
+    #restablece la suerte 
     def regain_count_luck(self):
         self.count_luck = 0
 
