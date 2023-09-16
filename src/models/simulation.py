@@ -61,7 +61,7 @@ class Simulation:
         */
         """
     def determine_team_winner(self):
-        for game in self.list_game
+        for game in self.list_game:
             self.total_points_team1 += game.obtain_team_score(0)
             self.total_points_team2 += game.obtain_team_score(1)
 
