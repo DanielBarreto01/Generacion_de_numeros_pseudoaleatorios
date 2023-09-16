@@ -110,11 +110,11 @@ class Game:
         for team in self.teams:
             team.regainRoundPoints()
 
-    def getWinnerGender(self) -> Gender:
+    def get_winner_gender(self) -> Gender:
         """Obtiene el género del ganador del juego."""
         return self.winnerGender
 
-    def getArchers(self) -> List[Archer]:
+    def get_archers(self) -> List[Archer]:
         """Obtiene a todos los arqueros de ambos equipos."""
         archers = []
         for team in self.teams:
