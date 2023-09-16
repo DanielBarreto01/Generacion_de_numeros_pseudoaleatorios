@@ -48,7 +48,7 @@ class Middle_square:
 
 # Ejemplo de cómo generar un número de 16 bits (2 bytes)
 """random_num = generate_random_number(16)
-print(random_num)""
+print(random_num)s"" 
 
 # Semilla inicial y cantidad de números pseudoaleatorios a generar
 seed = 1234
