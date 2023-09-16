@@ -3,6 +3,7 @@ from tkinter import ttk
 import random
 import Methods
 from Models.middle_square import Middle_square
+from Models.UniformDis import Uniform
 
 class NormalDistributionGenerator:
     
@@ -35,7 +36,7 @@ class NormalDistributionGenerator:
         self.quantity_entry = ttk.Entry(root)
 
         self.metodo = ttk.Label(root, text="Metodo de Generacion")
-        self.metodo_metod = ttk.Combobox(root, values=["Cuadrados Medios", "congruenciales", "distribución uniforme","distribución normal"])
+        self.metodo_metod = ttk.Combobox(root, values=["Cuadrados Medios", "congruenciales", "Distribución Uniforme","distribución normal"])
     
         self.generate_button = ttk.Button(root, text="Generar", command=lambda: self.select_methods(self.metodo_metod.get()))
 
@@ -103,12 +104,25 @@ class NormalDistributionGenerator:
         max_value = int(self.max_entry.get())
         quantity_value = int(self.quantity_entry.get())
 
-        print(min_value, max_value, quantity_value, method)
+        match method:
+            case "Cuadrados Medios":
+                self.middle_square_instance = Middle_square(min_value, max_value, quantity_value)
+                self.middle_square_instance.middle_square()
+                self.paint_table(self.middle_square_instance.random_numbers)
+            case "Distribución Uniforme":
+                self.uniform_instance = Uniform(quantity_value, min_value, max_value)
+                self.uniform_instance.generate_random()
+                self.paint_table(self.uniform_instance.aleatory)
+                pass
+            case _:
+                print("Método no válido")
+
+        
+                print(min_value, max_value, quantity_value, method)
         print("entre selec metodos")
         if method == "Cuadrados Medios":
             self.middle_square_instance = Middle_square(min_value, max_value, quantity_value)
             self.middle_square_instance.middle_square()
-
             ##self.methodos_instacnce.cuadrados_medios(self.quantity_entry.get())
             self.paint_table(self.middle_square_instance.random_numbers)
         else:
