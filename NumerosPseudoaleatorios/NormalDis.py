@@ -14,7 +14,7 @@ class NormalDistributionGenerator:
 
           # Calcula el ancho y alto de la pantalla
         window_width = 800  # Cambia esto al ancho deseado
-        window_height = 600
+        window_height = 700
 
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
@@ -39,48 +39,58 @@ class NormalDistributionGenerator:
 
 
         # Crear tabla para mostrar los números
-        self.table = ttk.Treeview(root, columns=("i", "Ri", "Ni"))
-        self.table.heading("#0", text="i")
-        self.table.heading("#1", text="Ri")
-        self.table.heading("#2", text="Ni")
+        self.table = ttk.Treeview(root, columns=("i","Ri", "Ni"))
+        self.table.heading("#0", text="")
+        self.table.heading("#1", text="i")
+        self.table.heading("#2", text="Ri")
+        self.table.heading("#3", text="Ni")
+    
 
-        # Posicionar elementos en la interfaz
-        self.min_label.grid(row=0, column=0)
-        self.min_entry.grid(row=0, column=1)
-        self.max_label.grid(row=1, column=0)
-        self.max_entry.grid(row=1, column=1)
-        self.metodo.grid(row=3, column=0)
-        self.quantity_label.grid(row=2, column=0)
-        self.quantity_entry.grid(row=2, column=1)
-        self.metodo_metod.grid(row=3, column=1)
-        self.generate_button.grid(row=4, columnspan=4)
-        self.table.grid(row=6, columnspan=4)
+        self.table.column("#0", width=0, anchor="center")
+        self.table.column("#1", width=280, anchor="center")
+        self.table.column("#2", width=280, anchor="center")
+        self.table.column("#3", width=300, anchor="center")
+    
 
+        # Centrar elementos verticalmente
+        self.min_label.pack()
+        self.min_entry.pack()
+        self.max_label.pack()
+        self.max_entry.pack()
+        self.quantity_label.pack()
+        self.quantity_entry.pack()
+        self.metodo.pack()
+        self.metodo_metod.pack()
+        self.generate_button.pack()
+
+        # Configurar la tabla
+        self.table.pack()
+        self.table["height"] = 16
         
 
+    
     def paint_table(self):
         # Elimina las filas de la tabla
         for row in self.table.get_children():
             self.table.delete(row)
-        # Elimina los valores de las columnas de la tabla
+
         for row in self.table.get_children():
             self.table.item(row, column=1, values="")
             self.table.item(row, column=2, values="")
             self.table.item(row, column=3, values="")
 
         valores_divididos = []
-    
         for i, num in enumerate(self.methodos_instacnce.numeros, start=1):
             valor_dividido = int(num) / 10000  # Divide el número por 10000
             valores_divididos.append(str(valor_dividido))
 
         # Mostrar los números en la tabla
+        # Mostrar los números en la tabla
         for i, (num, valor_dividido) in enumerate(zip(self.methodos_instacnce.numeros, valores_divididos), start=1):
-            self.table.insert("", "end", values=(i,valor_dividido, num ))
+            self.table.insert("", "end", values=(i,valor_dividido, num))
 
-        
-        print(self.methodos_instacnce.numeros,"numeros semilla")
-        print(valores_divididos,"valores divididos")
+        print(self.methodos_instacnce.numeros, "numeros semilla")
+        print(valores_divididos, "valores divididos")
 
 
 
