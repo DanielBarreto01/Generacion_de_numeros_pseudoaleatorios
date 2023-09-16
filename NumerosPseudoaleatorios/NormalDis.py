@@ -39,14 +39,18 @@ class NormalDistributionGenerator:
 
 
         # Crear tabla para mostrar los números
-        self.table = ttk.Treeview(root, columns=("Ri", "Ni"))
-        self.table.heading("#0", text="i")
-        self.table.heading("#1", text="Ri")
-        self.table.heading("#2", text="Ni")
+        self.table = ttk.Treeview(root, columns=("i","Ri", "Ni"))
+        self.table.heading("#0", text="")
+        self.table.heading("#1", text="i")
+        self.table.heading("#2", text="Ri")
+        self.table.heading("#3", text="Ni")
+    
 
-        self.table.column("#0", width=100, anchor="center")
-        self.table.column("#1", width=300, anchor="center")
-        self.table.column("#2", width=300, anchor="center")
+        self.table.column("#0", width=0, anchor="center")
+        self.table.column("#1", width=280, anchor="center")
+        self.table.column("#2", width=280, anchor="center")
+        self.table.column("#3", width=300, anchor="center")
+    
 
         # Centrar elementos verticalmente
         self.min_label.pack()
@@ -59,48 +63,34 @@ class NormalDistributionGenerator:
         self.metodo_metod.pack()
         self.generate_button.pack()
 
-        self.advertence_label = ttk.Label(root, text="", foreground="red", font=("Helvetica", 12))
-        self.advertence_label.pack()
+        # Configurar la tabla
+        self.table.pack()
+        self.table["height"] = 16
+        
 
-    def show_advertence(self):
-        # Mostrar el aviso
-        self.advertence_label.config(text="Seleccione un método")
-
-        # Configurar temporizador para ocultar el aviso después de 3000 ms (3 segundos)
-        self.hide_advertence_timer = self.root.after(3000, self.hide_advertence)
-
-    def hide_advertence(self):
-        # Ocultar el aviso
-        self.advertence_label.config(text="")
-
-        # Cancelar el temporizador si está en ejecución
-        if self.hide_advertence_timer:
-            self.root.after_cancel(self.hide_advertence_timer)
-
-
+    
     def paint_table(self):
         # Elimina las filas de la tabla
         for row in self.table.get_children():
             self.table.delete(row)
-        # Elimina los valores de las columnas de la tabla
+
         for row in self.table.get_children():
             self.table.item(row, column=1, values="")
             self.table.item(row, column=2, values="")
             self.table.item(row, column=3, values="")
 
         valores_divididos = []
-    
         for i, num in enumerate(self.methodos_instacnce.numeros, start=1):
             valor_dividido = int(num) / 10000  # Divide el número por 10000
             valores_divididos.append(str(valor_dividido))
 
         # Mostrar los números en la tabla
+        # Mostrar los números en la tabla
         for i, (num, valor_dividido) in enumerate(zip(self.methodos_instacnce.numeros, valores_divididos), start=1):
-            self.table.insert("", "end", values=(i,valor_dividido, num ))
+            self.table.insert("", "end", values=(i,valor_dividido, num))
 
-        
-        print(self.methodos_instacnce.numeros,"numeros semilla")
-        print(valores_divididos,"valores divididos")
+        print(self.methodos_instacnce.numeros, "numeros semilla")
+        print(valores_divididos, "valores divididos")
 
 
 
@@ -110,7 +100,6 @@ class NormalDistributionGenerator:
             self.methodos_instacnce.cuadrados_medios(self.quantity_entry.get())
             self.paint_table()
         else:
-            self.show_advertence()
             print("No se ha seleccionado un método")
         """elif method == "congruenciales":
             self.congruenciales()
