@@ -1,14 +1,19 @@
 import secrets
 class Middle_square:
 
-    def __init__(self, min, max):
+    def __init__(self, min, max,n):
+        self.random_numbers = [] # Lista para guardar los números pseudoaleatorios
         self.max = max
         self.min = min
+        self.n = n
         self.seed = secrets.randbelow(9223372036854775807)  # Genera un número aleatorio seguro como un long
 
     def middle_square(self):
         random_numbers = []
-        for i in range(10):
+        print(self.n)
+        print(self.min)
+        self.n=1
+        for i in range(int(self.n)):
 
             # Elevamos la semilla al cuadrado
             squared = self.seed * self.seed
@@ -21,10 +26,9 @@ class Middle_square:
             # Convertimos los dígitos centrales en un número entero
             new_seed = int(middle)
             # Guardamos el nuevo número en la lista de números aleatorios
-            random_numbers.append(new_seed)
+            random_numbers.append(str(new_seed))
             # La semilla para la próxima iteración es el nuevo número
             seed = new_seed
-        return random_numbers
 """
 # Semilla inicial y cantidad de números pseudoaleatorios a generar
 seed = 1234
@@ -35,6 +39,3 @@ random_sequence = middle_square(seed, n)
 
 # Imprimir la secuencia generada
 print(random_sequence)"""
-
-m = Middle_square(10,20)
-print(m.middle_square())

@@ -2,12 +2,14 @@ import tkinter as tk
 from tkinter import ttk
 import random
 import Methods
+from Models.middle_square import Middle_square
 
 class NormalDistributionGenerator:
     
         
     def __init__(self, root):
-        self.methodos_instacnce=Methods.Methods()
+       # self.methodos_instacnce=Methods.Methods()
+        
           # Calcula el ancho y alto de la pantalla
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
@@ -66,10 +68,12 @@ class NormalDistributionGenerator:
         # Configurar la tabla
         self.table.pack()
         self.table["height"] = 16
+
+        
         
 
     
-    def paint_table(self):
+    def paint_table(self,list_numbers):
         # Elimina las filas de la tabla
         for row in self.table.get_children():
             self.table.delete(row)
@@ -80,25 +84,33 @@ class NormalDistributionGenerator:
             self.table.item(row, column=3, values="")
 
         valores_divididos = []
-        for i, num in enumerate(self.methodos_instacnce.numeros, start=1):
+        for i, num in enumerate(list_numbers, start=1):
             valor_dividido = int(num) / 10000  # Divide el número por 10000
             valores_divididos.append(str(valor_dividido))
 
         # Mostrar los números en la tabla
         # Mostrar los números en la tabla
-        for i, (num, valor_dividido) in enumerate(zip(self.methodos_instacnce.numeros, valores_divididos), start=1):
+        for i, (num, valor_dividido) in enumerate(zip(list_numbers, valores_divididos), start=1):
             self.table.insert("", "end", values=(i,valor_dividido, num))
 
-        print(self.methodos_instacnce.numeros, "numeros semilla")
+        print(list_numbers, "numeros semilla")
         print(valores_divididos, "valores divididos")
 
 
 
     def select_methods(self,method):
-        print("entre")
+        min_value = int(self.min_entry.get())
+        max_value = int(self.max_entry.get())
+        quantity_value = int(self.quantity_entry.get())
+
+        print(min_value, max_value, quantity_value, method)
+        print("entre selec metodos")
         if method == "Cuadrados Medios":
-            self.methodos_instacnce.cuadrados_medios(self.quantity_entry.get())
-            self.paint_table()
+            self.middle_square_instance = Middle_square(min_value, max_value, quantity_value)
+            self.middle_square_instance.middle_square()
+
+            ##self.methodos_instacnce.cuadrados_medios(self.quantity_entry.get())
+            self.paint_table(self.middle_square_instance.random_numbers)
         else:
             print("No se ha seleccionado un método")
         """elif method == "congruenciales":
