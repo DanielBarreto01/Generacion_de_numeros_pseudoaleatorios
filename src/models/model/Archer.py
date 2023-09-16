@@ -1,9 +1,10 @@
-from src.model import middle_square
-from src.model.Gender import Gender
+from middle_square import middle_square
+from Gender import Gender
+from Score import Score
 
 import random
 
-class Shot:
+class Archer:
     def __init__(self, code):
         self.code = code
         self.generator = random.Random()
@@ -18,36 +19,7 @@ class Shot:
         self.won_raffles = 0
         self.consecutive_won_raffle_number_round = -1
         self.count_luck = 0
-
-    def get_code(self):
-        return self.code
-
-    def get_gender(self):
-        return self.gender
-
-    def get_resistance(self):
-        return self.resistance
-
-    def get_experience(self):
-        return self.experience
-
-    def get_luck(self):
-        return self.luck
-
-    def get_points(self):
-        return self.points
-
-    def get_won_rounds(self):
-        return self.won_rounds
-
-    def get_won_raffles(self):
-        return self.won_raffles
-
-    def get_round_points(self):
-        return self.round_points
-
-    def get_count_luck(self):
-        return self.count_luck
+        self.score = None
 
     def launch(self):
         launch = 0
@@ -63,30 +35,28 @@ class Shot:
         return self.throwing_male() if self.gender == 'MALE' else self.throwing_female()
 
     def throwing_male(self):
-        score = 0
         random_val = self.generator.uniform(0, 1)
         if 0 < random_val <= 0.2:
-            score = Shoot.CENTRAL.get_score()
+            self.score = Score.CENTER
         elif 0.2 < random_val <= 0.53:
-            score = Shoot.INTERMEDIATE.get_score()
+            self.score = Score.INTERMEDIATE
         elif 0.53 < random_val <= 0.93:
-            score = Shoot.OUTSIDE.get_score()
+            self.score = Score.OUTSIDE
         elif 0.93 < random_val <= 1:
-            score = Shoot.ERROR.get_score()
-        return score
+            self.score = Score.ERROR
+        return self.score
 
     def throwing_female(self):
-        score = 0
         random_val = self.generator.uniform(0, 1)
         if 0 < random_val <= 0.3:
-            score = Shoot.CENTRAL.get_score()
+            self.score = Score.CENTER
         elif 0.3 < random_val <= 0.68:
-            score = Shoot.INTERMEDIATE.get_score()
+            self.score = Score.INTERMEDIATE
         elif 0.68 < random_val <= 0.95:
-            score = Shoot.OUTSIDE.get_score()
+            self.score = Score.OUTSIDE
         elif 0.95 < random_val <= 1:
-            score = Shoot.ERROR.get_score()
-        return score
+            self.score = Score.ERROR
+        return self.score
 
     def increase_won_rounds(self):
         self.won_rounds += 1
@@ -139,14 +109,8 @@ class Shot:
     def regain_count_luck(self):
         self.count_luck = 0
 
-class Shoot:
-    CENTRAL = 1
-    INTERMEDIATE = 2
-    OUTSIDE = 3
-    ERROR = 0
-
 if __name__ == "__main__":
-    archer = Shot(1)
+    archer = Archer(1)
     archer.launch()
-    print("Archer Points:", archer.get_points())
-    print("Archer Resistance:", archer.get_resistance())
+    print("Archer Points:", archer.points)
+    print("Archer Resistance:", archer.resistance)
