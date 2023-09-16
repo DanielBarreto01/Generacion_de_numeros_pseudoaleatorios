@@ -107,8 +107,8 @@ class NormalDistributionGenerator:
         match method:
             case "Cuadrados Medios":
                 self.middle_square_instance = Middle_square(min_value, max_value, quantity_value)
-                self.middle_square_instance.middle_square()
-                self.paint_table(self.middle_square_instance.random_numbers)
+                n=self.middle_square_instance.middle_square()
+                self.paint_table(n)
             case "Distribución Uniforme":
                 self.uniform_instance = Uniform(quantity_value, min_value, max_value)
                 self.uniform_instance.generate_random()
@@ -120,19 +120,6 @@ class NormalDistributionGenerator:
         
                 print(min_value, max_value, quantity_value, method)
         print("entre selec metodos")
-        if method == "Cuadrados Medios":
-            self.middle_square_instance = Middle_square(min_value, max_value, quantity_value)
-            self.middle_square_instance.middle_square()
-            ##self.methodos_instacnce.cuadrados_medios(self.quantity_entry.get())
-            self.paint_table(self.middle_square_instance.random_numbers)
-        else:
-            print("No se ha seleccionado un método")
-        """elif method == "congruenciales":
-            self.congruenciales()
-        elif method == "distribución uniforme":
-            self.distribucion_uniforme()
-        elif method == "distribución normal":
-            self.distribucion_normal()"""
         
         
 
