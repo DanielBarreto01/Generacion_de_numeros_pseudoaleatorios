@@ -62,13 +62,26 @@ class NormalDistributionGenerator:
         # Elimina las filas de la tabla
         for row in self.table.get_children():
             self.table.delete(row)
-
+        # Elimina los valores de las columnas de la tabla
         for row in self.table.get_children():
             self.table.item(row, column=1, values="")
-        # Mostrar los números en la tabla
+            self.table.item(row, column=2, values="")
+            self.table.item(row, column=3, values="")
+
+        valores_divididos = []
+    
         for i, num in enumerate(self.methodos_instacnce.numeros, start=1):
-            self.table.insert("", "end", values=(i,"", num))
-        print(self.methodos_instacnce.numeros)
+            valor_dividido = int(num) / 10000  # Divide el número por 10000
+            valores_divididos.append(str(valor_dividido))
+
+        # Mostrar los números en la tabla
+        for i, (num, valor_dividido) in enumerate(zip(self.methodos_instacnce.numeros, valores_divididos), start=1):
+            self.table.insert("", "end", values=(i,valor_dividido, num ))
+
+        
+        print(self.methodos_instacnce.numeros,"numeros semilla")
+        print(valores_divididos,"valores divididos")
+
 
 
     def select_methods(self,method):
