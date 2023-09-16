@@ -4,10 +4,11 @@ from Archer import Archer
 class Team:
         
     def __init__(self, archers: List[Archer], code: int):
-        self.code = code
         self.archers = archers
-        self.score = 0
+        self.code = code
+        self.score=0
         self.won_rounds = 0
+        self.count_luck = 0
 
 
     """ le da  lanzamiento adicional al arquero más afortunado."""
@@ -55,6 +56,11 @@ class Team:
                 most_scored_archer = archer
         return most_scored_archer
     
+    "restaura puntos ronda"
+    def regain_round_points(self):
+        for archer in self.archers:
+            archer.regain_round_points()
+    
     """Obtiene al arquero más experimentado en el equipo. """
     def obtain_most_experienced_archer(self) -> Archer:
         most_experienced_archer = self.archers[0]
@@ -62,9 +68,15 @@ class Team:
             if archer.experience() > most_experienced_archer.experience():
                 most_experienced_archer = archer
         return most_experienced_archer
+    
+    """reduce resistencia de arqueros por experiencia."""       #validar 
+    def decrease_resistance_experience(self):
+        for archer in self.archers:
+            if archer.experience == 0:
+                archer.decrease_resistance_by_experience()
 
     """Obtiene al arquero con más rondas ganadas en el equipo."""
-    def  obtainMostWonRounds Archer method which the archer obtains with more rounds(self) -> Archer:
+    def obtain_most_won_rounds_archer(self) -> Archer:
         most_won_rounds_archer = self.archers[0]
         for archer in self.archers[1:]:
             if archer.won_rounds() > most_won_rounds_archer.won_rounds():
@@ -87,7 +99,6 @@ class Team:
 
     """ Obtiene al arquero más afortunado en el equipo."""
     def obtain_most_luck_archer(self) -> Archer:
-
         most_luck_archer = self.archers[0]
         for archer in self.archers[1:]:
             if archer.count_luck() > most_luck_archer.count_luck():
