@@ -1,5 +1,5 @@
 from src.model import middle_square
-from src.model.na.Gender import Gender
+from src.model.Gender import Gender
 
 
 class Shot:
