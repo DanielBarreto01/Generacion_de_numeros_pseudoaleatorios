@@ -2,7 +2,7 @@ from src.models import middle_square
 from src.models.Gender import Gender
 
 
-class Shot:
+class Archer:
     def __init__(self, codigo):
         self.generator = middle_square.Middle_square(0 ,1)
         self.code = codigo;

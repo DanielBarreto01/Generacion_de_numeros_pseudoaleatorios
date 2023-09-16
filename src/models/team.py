@@ -1,4 +1,4 @@
-from src.models import shot
+from src.models import archer
 
 
 class Team:
@@ -107,9 +107,9 @@ class Team:
 
 
 # Crear instancias de Archer
-archer1 = shot.Shot(0.8)
-archer2 = shot.Shot(0.9)
-archer3 = shot.Shot(0.7)
+archer1 = archer.Archer(0.8)
+archer2 = archer.Archer(0.9)
+archer3 = archer.Archer(0.7)
 
 # Crear una lista de arqueros
 archers = [archer1, archer2, archer3]

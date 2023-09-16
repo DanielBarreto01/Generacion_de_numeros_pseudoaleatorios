@@ -26,7 +26,7 @@ class Game:
         else:
             winner = archer_team_1 if archer_team_1.round_points > archer_team_2.round_points else archer_team_2
         winner.gain_experience()
-        
+
 
     """Realiza un desempate de arqueros ."""
     def check_tie(self, a: Archer, b: Archer) -> Archer:
@@ -71,8 +71,8 @@ class Game:
     def determine_win_Gender(self):
         self.winnerGender = self.obtain_individual_winner().gender()
 
+    """Obtiene al arquero más afortunado de los 2 equipos."""
     def obtain_most_luck_archer(self) -> Archer:
-        """Obtiene al arquero más afortunado de los 2 equipos."""
         countLuckArcherTeam1 = self.teams[0].obtain_most_luck_archer()
         countLuckArcherTeam2 = self.teams[1].obtain_most_luck_archer()
         return (
@@ -83,41 +83,42 @@ class Game:
             else countLuckArcherTeam2
         )
 
+    """Obtiene la puntuación del equipo en una posición específica."""
     def obtain_team_score(self, position: int) -> int:
-        """Obtiene la puntuación del equipo en una posición específica."""
         return self.teams[position].score()
 
+    """Obtiene un equipo en una posición específica."""
     def obtain_team(self, position: int) -> Team:
-        """Obtiene un equipo en una posición específica."""
         return self.teams[position]
 
+    """Incrementa el número de rondas en 1 unidad."""
     def increase_rounds(self):
-        """Incrementa el número de rondas en 1 unidad."""
         self.rounds += 1
 
+    """Otorga un tiro extra a cada equipo."""
     def give_extra_throwBy_three_throws(self):
-        """Otorga un tiro extra a cada equipo."""
         self.teams[0].give_extra_throw_by_three_throws()
         self.teams[1].give_extra_throw_by_three_throws()
-                                                            
-    def decrease_resistance_Experience(self):#falta ahasta bajo
+
+    def decrease_resistance_Experience(self):
         """Reduce la resistencia por experiencia de cada equipo."""
-        self.teams[0].decrease_resistance_by_experience()
-        self.teams[1].decreaseResistanceByExperience()
+        self.teams[0].decrease_resistance_experience()
+        self.teams[1].decrease_resistance_experience()
 
+
+    """Restaura los puntos de la ronda para cada equipo."""
     def regain_round_points(self):
-        """Restaura los puntos de la ronda para cada equipo."""
         for team in self.teams:
-            team.regainRoundPoints()
+            team.regain_round_points()
 
-    def getWinnerGender(self) -> Gender:
+    def get_winner_gender(self) -> Gender:
         """Obtiene el género del ganador del juego."""
         return self.winnerGender
 
-    def getArchers(self) -> List[Archer]:
+    def get_archers(self) -> List[Archer]:
         """Obtiene a todos los arqueros de ambos equipos."""
         archers = []
         for team in self.teams:
-            for archer in team.getArchers():
+            for archer in team.archers():
                 archers.append(archer)
         return archers
