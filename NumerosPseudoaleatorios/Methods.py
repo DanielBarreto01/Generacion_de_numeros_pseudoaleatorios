@@ -11,8 +11,8 @@ class Methods:
     def cuadrados_medios(self,iteraciones):
         self.numeros = []
         tam1 = len(str(7435))
-        print(iteraciones)
-        print("Cantidad de dígitos: ", tam1)
+       # print(iteraciones)
+       # print("Cantidad de dígitos: ", tam1)
         iteraciones = int(iteraciones) 
         numero1 = int(time.time())
         for i in range(iteraciones):
@@ -21,7 +21,7 @@ class Methods:
                 tam2 = len(snumero2)
                 primerc = int((tam2 - tam1) / 2)
                 self.numeros.append(snumero2[primerc:primerc+tam1])
-                print(self.numeros, "   eueu")
+               # print(self.numeros, "   eueu")
                # print("{}.  {}".format(i, self.numeros))
 # Crear una instancia de la clase Methods
 
