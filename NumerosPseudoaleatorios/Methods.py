@@ -9,6 +9,7 @@ class Methods:
         self.numeros = []    
 
     def cuadrados_medios(self,iteraciones):
+        self.numeros = []
         tam1 = len(str(7435))
         print(iteraciones)
         print("Cantidad de dígitos: ", tam1)

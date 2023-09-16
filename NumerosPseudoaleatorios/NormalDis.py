@@ -63,14 +63,11 @@ class NormalDistributionGenerator:
         for row in self.table.get_children():
             self.table.delete(row)
 
-        # Elimina las filas de la tabla
         for row in self.table.get_children():
             self.table.item(row, column=1, values="")
-            self.table.item(row, column=2, values="")
         # Mostrar los números en la tabla
-        for num in self.methodos_instacnce.numeros:
-            
-            self.table.insert("", "end", values=(num, ""))
+        for i, num in enumerate(self.methodos_instacnce.numeros, start=1):
+            self.table.insert("", "end", values=(i,"", num))
         print(self.methodos_instacnce.numeros)
 
 
