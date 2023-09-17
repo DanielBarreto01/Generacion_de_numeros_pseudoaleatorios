@@ -4,6 +4,7 @@ import random
 from Models.middle_square import Middle_square
 from Models.UniformDis import Uniform
 from Models.Multiplicative import Multiplicative
+from Models.NormalDistribution import NormalDistribution
 
 class Run:
     
@@ -131,6 +132,9 @@ class Run:
                 n=self.multiplicative_instance.get_aleatory()
                 self.paint_table(n)
             case "Distribución Normal":
+                self.normal_distribution_instance = NormalDistribution(min_value, max_value, quantity_value)
+                self.normal_distribution_instance.generate_random()
+                self.paint_table(self.normal_distribution_instance.get_aleatory(),self.normal_distribution_instance.getRi(),self.normal_distribution_instance.getNi())
                 pass
             case _:
                 print("Método no válido")
