@@ -1,20 +1,16 @@
 import secrets
-class Middle_square:
 
-    def __init__(self, min, max,n):
-        self.random_numbers = [] # Lista para guardar los números pseudoaleatorios
-        self.max = max
-        self.min = min
-        self.n = n
-        self.seed = secrets.randbelow(9223372036854775807)  # Genera un número aleatorio seguro como un long
+class Middle_square:
+    def __init__(self, min_value, max_value, quantity):
+        self.quantity = quantity
+        self.ni_sequence = []
+        self.max = max_value
+        self.min = min_value
+        self.seed = self.generate_random_number(25)  # Genera un número aleatorio seguro como un long
 
     def middle_square(self):
         random_numbers = []
-        print(self.n)
-        print(self.min)
-        self.n=1
-        for i in range(int(self.n)):
-
+        for _ in range(self.quantity):
             # Elevamos la semilla al cuadrado
             squared = self.seed * self.seed
             # Convertimos el resultado en una cadena para trabajar con los dígitos
@@ -22,20 +18,38 @@ class Middle_square:
             # Aseguramos que la cadena tenga al menos 8 dígitos
             squared_str = squared_str.zfill(8)
             # Tomamos los dígitos centrales (de la posición 2 a la 6)
-            middle = squared_str[2:6]
+            middle = squared_str[int((len(squared_str) / 2)) - 2:int((len(squared_str) / 2)) + 2]
             # Convertimos los dígitos centrales en un número entero
-            new_seed = int(middle)
+            new_seed = float(middle) / 10000.0
             # Guardamos el nuevo número en la lista de números aleatorios
-            random_numbers.append(str(new_seed))
+            random_numbers.append(new_seed)
             # La semilla para la próxima iteración es el nuevo número
-            seed = new_seed
-"""
-# Semilla inicial y cantidad de números pseudoaleatorios a generar
-seed = 1234
-n = 10
+            self.seed = int(middle)
+        return random_numbers
 
-# Generar la secuencia de números pseudoaleatorios
-random_sequence = middle_square(seed, n)
+    def generate_random_number(self, size):
+        if size <= 0:
+            raise ValueError("El tamaño debe ser mayor que cero")
+
+        # Generar bytes aleatorios usando secrets
+        num_bytes = (size + 7) // 8  # Calcula la cantidad de bytes necesarios
+        random_bytes = secrets.token_bytes(num_bytes)
+
+        # Convierte los bytes en un número entero
+        random_number = int.from_bytes(random_bytes, byteorder='big')
+
+        # Ajusta el tamaño si es necesario
+        random_number = random_number % (2 ** size)
+
+        return random_number
+
+# Ejemplo de uso:
+min_value = 0  # Ajusta los valores de min y max según tus necesidades
+max_value = 1
+quantity = 10  # Cantidad de números pseudoaleatorios a generar
+
+m = Middle_square(min_value, max_value, quantity)
+random_sequence = m.middle_square()
 
 # Imprimir la secuencia generada
-print(random_sequence)"""
+print(random_sequence)
