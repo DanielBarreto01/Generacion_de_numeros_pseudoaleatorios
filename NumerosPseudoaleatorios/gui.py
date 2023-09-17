@@ -3,6 +3,7 @@ from tkinter import filedialog
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
+import pandas as pd
 
 class PseudoRandomValidatorApp:
     def __init__(self, root):
@@ -34,13 +35,20 @@ class PseudoRandomValidatorApp:
         self.canvas = tk.Canvas(self.root, width=400, height=300)
         self.canvas.pack()
 
-    def load_file(self):
-        # Abrir un cuadro de diálogo para seleccionar un archivo
-        file_path = filedialog.askopenfilename(filetypes=[("Archivos de texto", "*.txt")])
+        # Tabla para mostrar los resultados
+        self.result_table = tk.Text(self.root, height=10, width=40)
+        self.result_table.pack()
 
-        # Leer los números pseudoaleatorios del archivo (suponemos un número por línea)
-        with open(file_path, 'r') as file:
-            self.random_numbers = [float(line.strip()) for line in file]
+    def load_file(self):
+        # Abrir un cuadro de diálogo para seleccionar un archivo CSV
+        file_path = filedialog.askopenfilename(filetypes=[("Archivos CSV", "*.csv")])
+
+        # Leer los números pseudoaleatorios del archivo CSV usando pandas
+        df = pd.read_csv(file_path)
+        self.random_numbers = df['Numero'].tolist()  # Suponemos que el CSV tiene una columna llamada 'Numero'
+
+        # Realizar la prueba de medias y mostrar los resultados en la tabla
+        self.run_mean_test_and_display()
 
     def run_test(self):
         if not hasattr(self, 'random_numbers'):
@@ -49,43 +57,47 @@ class PseudoRandomValidatorApp:
         selected_test = self.selected_test.get()
 
         if selected_test == "Prueba de Medias":
-            result = self.run_mean_test()
-        elif selected_test == "Prueba de Varianza":
-            result = self.run_variance_test()
-        elif selected_test == "Prueba KS":
-            result = self.run_ks_test()
-        elif selected_test == "Prueba Chi2":
-            result = self.run_chi2_test()
-        elif selected_test == "Prueba de Póker":
-            result = self.run_poker_test()
+            self.run_mean_test_and_display()
+        # Resto de las pruebas aquí ...
+
+    def run_mean_test_and_display(self):
+        if not hasattr(self, 'random_numbers'):
+            return
+
+        # Realizar la prueba de medias
+        mean = np.mean(self.random_numbers)
+        result = f"Media: {mean:.4f}"
 
         # Mostrar el resultado en el gráfico
         self.plot_result(result)
 
-    def run_mean_test(self):
-        # Realizar la prueba de medias
-        mean = np.mean(self.random_numbers)
-        return f"Media: {mean:.4f}"
+        # Mostrar el resultado en la tabla
+        self.result_table.delete("1.0", "end")  # Borrar contenido anterior
+        self.result_table.insert("end", result)
 
-    def run_variance_test(self):
-        # Realizar la prueba de varianza
-        variance = np.var(self.random_numbers)
-        return f"Varianza: {variance:.4f}"
+        # Crear y mostrar la tabla con tres columnas: "Numero", "Ni", "Normalizados"
+        table_data = []
+        n = len(self.random_numbers)
+        for i, num in enumerate(self.random_numbers):
+            table_data.append([i + 1, num, i / n])
 
-    def run_ks_test(self):
-        # Realizar la prueba KS
-        _, p_value = stats.kstest(self.random_numbers, 'uniform')
-        return f"Valor p: {p_value:.4f}"
+        table_headers = ["Numero", "Ni", "Normalizados"]
+        table_df = pd.DataFrame(table_data, columns=table_headers)
 
-    def run_chi2_test(self):
-        # Realizar la prueba Chi2
-        _, p_value = stats.chisquare(self.random_numbers)
-        return f"Valor p: {p_value:.4f}"
+        self.result_table.insert("end", "\nTabla de Datos:\n")
+        self.result_table.insert("end", table_df.to_string(index=False))
 
-    def run_poker_test(self):
-        # Realizar la prueba de Póker
-        #  implementar lógica para la prueba de Póker
-        return "Prueba de Póker no implementada"
+        # Mostrar el banner con información de aceptación y alfa
+        alpha = 0.05  # Cambiar esto según  nivel de confianza
+        self.result_table.insert("end", f"\n\nNivel de confianza (alfa): {alpha}\n")
+        self.result_table.insert("end", "Resultado de Aceptación: ")
+
+        if mean < (1 - alpha / 2) and mean > alpha / 2:
+            self.result_table.insert("end", "Aceptado")
+        else:
+            self.result_table.insert("end", "Rechazado")
+
+    # Resto de los métodos de prueba aquí ...
 
     def plot_result(self, result):
         self.canvas.delete("all")
