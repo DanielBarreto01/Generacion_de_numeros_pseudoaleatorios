@@ -107,7 +107,7 @@ class Game:
 
         archers = []
         for team in self.teams:
-            for archer in team.archers():
+            for archer in team.archers:
                 archers.append(archer)
         return archers
 

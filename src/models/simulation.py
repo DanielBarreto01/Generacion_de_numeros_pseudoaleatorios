@@ -134,7 +134,7 @@ class Simulation:
     def obtain_genders_by_game(self):
         genders_by_game_string = ""
         for i in range(len(self.list_game)):
-            genders_by_game_string = f"Game {i+1} : {self.list_game[i].get_winner_gender().get_gender()} \n"
+            genders_by_game_string += f"Game {i+1} : {self.list_game[i].get_winner_gender().get_gender()} \n"
         return  genders_by_game_string
 
 
