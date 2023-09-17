@@ -11,6 +11,7 @@ class Linear:
         self.interval_start = interval_start
         self.interval_end = interval_end
         self.seeds = []
+        self.ri_sequence = []
 
     def get_aleatory(self):
         self.generate_random(self.calculate_seed(self.x))
@@ -21,6 +22,7 @@ class Linear:
             random_number = self.calculate_number(seed)
             mapped_number = self.map_to_interval(random_number)
             self.aleatory.append(mapped_number)
+            self.ri_sequence.append(mapped_number)  # Agrega el valor individual a ri_sequence
             new_seed = self.calculate_seed(seed)
             self.seeds.append(seed)
             self.generate_random(new_seed)
@@ -36,6 +38,11 @@ class Linear:
 
     def get_seeds(self):
         return self.seeds
+    
+    def getRi(self):
+        return self.ri_sequence
+    def getNi(self):
+        return self.aleatory
 
 # Ejemplo de uso:
 x = 42
@@ -53,3 +60,6 @@ seeds = linear_generator.get_seeds()
 
 print("Números aleatorios:", random_numbers)
 print("Semillas utilizadas:", seeds)
+for i, random_number in enumerate(random_numbers):
+    print(f'R{i + 1} = {random_number:.6f}')
+
