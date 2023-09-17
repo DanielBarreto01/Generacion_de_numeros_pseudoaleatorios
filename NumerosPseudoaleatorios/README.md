@@ -1,4 +1,4 @@
-# Generador denumeros pseudoaletorios
+CI# Generador denumeros pseudoaletorios
 
-## Clase ejecuion generador ---> Run.py
+## Clase ejecucíon generador ---> Run.py
 ## Metodos --> Models
