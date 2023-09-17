@@ -1,6 +1,9 @@
 from typing import List, Any
 
 from src.models import archer, game, Gender
+from src.models import team
+
+
 class Simulation:
     def __init__(self, games):
         self.list_game = []
@@ -15,22 +18,21 @@ class Simulation:
 
     #Método initTeams void que inicializa cada equipo desde cero.
     def init_teams(self):
-        self.team1 = [archer.Archer(1), archer.Archer(2), archer.Archer(3), archer.Archer(4), archer.Archer(5), 1]
-        self.team2 = [archer.Archer(6), archer.Archer(7), archer.Archer(8), archer.Archer(9), archer.Archer(10), 2]
-
+        self.team1 = team.Team([archer.Archer(1), archer.Archer(2), archer.Archer(3), archer.Archer(4), archer.Archer(5)], 1)
+        self.team2 = team.Team([archer.Archer(6), archer.Archer(7), archer.Archer(8), archer.Archer(9), archer.Archer(10)], 2)
     """
         initSimulation void method that contains all the simulation logic.
 
     @param games."""
 
-    def init_simulation(self,games):
+    def init_simulation(self, games):
         for i in range(games):
             self.init_teams()
             current_game = game.Game(self.team1, self.team2)
             self.list_game.append(current_game) # // Add new game to list
             for j in range(10): #// Rounds loop
-                for team in self.list_game[j].teams:
-                    for archer in team.get_archers():
+                for team in self.list_game[i].get_teams():
+                    for archer in team.archers:
                         archer.launch()
                 current_game.raffle_shoot()
                 if j >= 2:
@@ -76,7 +78,7 @@ class Simulation:
     def obtain_lucky_archers(self):
         lucky_archers_string = ""
         for i in range (len(self.list_game)):
-            lucky_archers_string += f"Game {i+1} :Archer {self.list_game[i].oobtain_most_luck_archer().code} \n"
+            lucky_archers_string += f"Game {i+1} :Archer {self.list_game[i].obtain_most_luck_archer().code} \n"
         return lucky_archers_string
 
     """/**

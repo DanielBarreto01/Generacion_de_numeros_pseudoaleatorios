@@ -1,5 +1,6 @@
 from src.models import middle_square
 from src.models.Gender import Gender
+from src.models.Shoot import Shoot
 
 
 class Archer:
@@ -12,11 +13,11 @@ class Archer:
         self.experience = 10;
         self.luck = self.generate_luck()
         self.points = 0
-        self.roundPoints = 0
-        self.wonRounds = 0
-        self.wonRaffles = 0
+        self.round_points = 0
+        self.won_rounds = 0
+        self.won_raffles = 0
         self.consecutive_won_raflle_number_round = -1
-        self.countLuck = 0
+        self.count_luck = 0
 
     def get_code(self):
         return self.code
@@ -63,7 +64,7 @@ class Archer:
 
     def throwing_male(self):
         score = 0
-        random_val = self.generator.uniform(0, 1)
+        random_val = self.generator.generateNi()
         if 0 < random_val <= 0.2:
             score = Shoot.CENTRAL.get_score()
         elif 0.2 < random_val <= 0.53:
@@ -76,7 +77,7 @@ class Archer:
 
     def throwing_female(self):
         score = 0
-        random_val = self.generator.uniform(0, 1)
+        random_val = self.generator.generateNi()
         if 0 < random_val <= 0.3:
             score = Shoot.CENTRAL.get_score()
         elif 0.3 < random_val <= 0.68:
@@ -91,7 +92,7 @@ class Archer:
         self.won_rounds += 1
 
     def increase_won_raffles(self, round_num):
-        if self.consecutive_won_raffle_number_round == -1:
+        if self.consecutive_won_raflle_number_round == -1:
             self.consecutive_won_raffle_number_round = round_num
             self.won_raffles += 1
         elif self.consecutive_won_raffle_number_round + 1 == round_num:
@@ -121,7 +122,7 @@ class Archer:
         self.resistance = self.initial_resistance
 
     def generate_fatigue(self):
-        return int(self.generator.uniform(0, 1) * 2) + 1
+        return int(self.generator.generateNi() * 2) + 1
 
     def gain_experience(self):
         self.experience += 3

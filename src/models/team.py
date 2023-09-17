@@ -2,106 +2,108 @@ from src.models import archer
 
 
 class Team:
-    def __init__(self, arches, code):
-        # self.arches[0] = shot.Shot(5).
-        self.arches = arches
+
+    def __init__(self, archers, code: int):
+        self.archers = archers
         self.code = code
         self.score=0
         self.won_rounds = 0
         self.count_luck = 0
 
-    def get_lucky_archer(self):
-        lucky_archer = None
-        max_lucky = 0
-        for i in self.arches:
-            if i.get_luck() > max_lucky:
-                max_lucky = i.get_luck()
-                lucky_archer = i
-        return lucky_archer
 
-    def increase_luck_to_archer(self):
-        self.get_lucky_archer().increase_count_luck
+    """ le da  lanzamiento adicional al arquero más afortunado."""
+    def launch_by_luck(self, round: int):
+        lucky_archer = self.get_lucky_archer()
+        if lucky_archer:
+            self.score += lucky_archer.individual_launch()
+            lucky_archer.increase_won_raffles(round)
+            lucky_archer.increase_count_luck()
 
-    def increase_count_luck(self):
-        self.count_luck +=1
-
-    def grant_throw_by_lucky_archer(self, round):
-        archer = self.get_lucky_archer()
-        self.score += archer.individual_launch()
-        archer.increase_won_raffles(round)
-        archer.increase_count_luck()
-
-    def give_extra_throw_by_three_throws(self):
-        for archer in self.archers:
-            if archer.get_won_raffles() == 3:
-                self.score += archer.individual_launch();
-
-
-    def obtain_most_scored_archer(self):
-        most_scored_archer = self.archers[0]
-        for i in range (len(self.arches)):
-            if self.arches[i].get_round_points() > most_scored_archer.get_round_points():
-                most_scored_archer = archers[i]
-        return most_scored_archer
-
-    def obtain_most_won_rounds(self):
-        most_won_rounds_archer = self.archers[0]
-        for i in range (len(self.arches)):
-            if self.arches[i].get_round_points() > most_won_rounds_archer.get_won_rounds():
-                most_won_rounds_archer = self.arches[i]
-        return most_won_rounds_archer
-
-    def obtain_round_score(self):
-        round_score = 0
-        for archer in self.archers:
-            round_score += archer.get_round_points()
-        return round_score
-
-    def obtain_total_score(self):
-        total_score = 0
-        for archer in self.arches:
-            total_score += archer.get_points()
-        return total_score
-
-    def obtain_most_luck_archer(self):
-        target = self.arches[0]
-        for i in range (len(self.arches)):
-            target = self.archers[i] if self.arches[i].get_count_luck > target.getCountLuck() else target
-        return target
-
-    def obtain_most_experienced(self):
-        most_experienced_archer = self.archers[0]
-        for i in range (len(self.arches)):
-            if self.arches[i].get_experience() > most_experienced_archer.get_experience():
-                most_experienced_archer = self.arches[i]
-        return  most_experienced_archer
-
-
-    def get_score(self):
-        return self.score
-
-    def set_score(self, score):
-        self.score = score
-    def get_code(self):
-        return self.code
-
-    def get_archers(self):
-        return self.archers
-
-    def get_won_rounds(self):
-        return self.won_rounds
-
+    """Incrementa el número de rondas ganadas por el equipo."""
     def increase_won_rounds(self):
         self.won_rounds += 1
 
-    def decrease_resistance_by_experience(self):
-        for archer in self.arches:
-            if archer.get_experience() == 0:
+    """Obtiene al arquero con más suerte en el equipo."""
+    def get_lucky_archer(self) -> archer:
+        lucky_archer = None
+        max_luck = 0
+        for archer in self.archers:
+            if archer.luck > max_luck:
+                max_luck = archer.luck
+                lucky_archer = archer
+        return lucky_archer
+
+    """Incrementa la suerte del arquero más afortunado."""   #RARRO
+    def increase_luck_to_archer(self):
+        lucky_archer = self.get_lucky_archer()
+        if lucky_archer:
+            lucky_archer.increase_count_luck()
+
+
+
+    """Otorga un lanzamiento extra a los arqueros que han ganado 3 tiros. """
+    def give_extra_throw_by_three_throws(self):
+
+        for archer in self.archers:
+            if archer.won_raffles == 3:
+                self.score += archer.individual_launch()
+
+    """Obtiene al arquero con la puntuación más alta en una ronda. """
+    def get_archer_with_higher_scorer(self) -> archer:
+        most_scored_archer = self.archers[0]
+        for archer in self.archers[1:]:
+            if archer.round_points > most_scored_archer.round_points:
+                most_scored_archer = archer
+        return most_scored_archer
+
+    "restaura puntos ronda"
+    def regain_round_points(self):
+        for archer in self.archers:
+            archer.regain_round_points()
+
+    """Obtiene al arquero más experimentado en el equipo. """
+    def obtain_most_experienced_archer(self) -> archer:
+        most_experienced_archer = self.archers[0]
+        for archer in self.archers[1:]:
+            if archer.experience() > most_experienced_archer.experience():
+                most_experienced_archer = archer
+        return most_experienced_archer
+
+    """reduce resistencia de arqueros por experiencia."""       #validarr
+    def decrease_resistance_experience(self):
+        for archer in self.archers:
+            if archer.experience == 0:
                 archer.decrease_resistance_by_experience()
 
-    def regain_round_points(self):
-        for archer in self.arches:
-            archer.regain_round_points()
+    """Obtiene al arquero con más rondas ganadas en el equipo."""
+    def obtain_most_won_rounds_archer(self) -> archer:
+        most_won_rounds_archer = self.archers[0]
+        for archer in self.archers[1:]:
+            if archer.won_rounds > most_won_rounds_archer.won_rounds:
+                most_won_rounds_archer = archer
+        return most_won_rounds_archer
+
+    """Obtiene la puntuación total del equipo en una ronda."""
+    def obtain_round_score(self) -> int:
+        round_score = 0
+        for archer in self.archers:
+            round_score += archer.round_points
+        return round_score
+
+    """Obtiene la puntuación total del equipo en todas las rondas. """
+    def obtain_total_score(self) -> int:
+        total_score = 0
+        for archer in self.archers:
+            total_score += archer.points()
+        return total_score
+
+    """ Obtiene al arquero más afortunado en el equipo."""
+    def obtain_most_luck_archer(self) -> archer:
+        most_luck_archer = self.archers[0]
+        for archer in self.archers[1:]:
+            if archer.count_luck() > most_luck_archer.count_luck():
+                most_luck_archer = archer
+        return most_luck_archer
 
 
 
