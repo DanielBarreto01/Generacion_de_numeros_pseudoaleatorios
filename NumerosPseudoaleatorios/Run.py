@@ -106,12 +106,12 @@ class Run:
 
         self.table.grid(row=10, column=0, columnspan=2, padx=20, pady=5, sticky="nsew")
 
-    def show_plot():
-    # Crear datos de ejemplo (reemplaza esto con tus propios datos)
+    def show_plot(self,event=None):
+     # Crear datos de ejemplo para la gráfica (reemplaza esto con tus propios datos)
         x = [1, 2, 3, 4, 5]
         y = [2, 4, 1, 7, 5]
 
-    # Crear una figura de Matplotlib
+        # Crear una figura de Matplotlib
         fig, ax = plt.subplots()
         ax.plot(x, y, label='Datos de ejemplo')
         ax.set_xlabel('Eje X')
@@ -122,7 +122,7 @@ class Run:
         # Crear una ventana emergente para la gráfica
         popup = tk.Toplevel()
         popup.title('Gráfica')
-    
+
         # Agregar la gráfica a la ventana emergente
         canvas = FigureCanvasTkAgg(fig, master=popup)
         canvas_widget = canvas.get_tk_widget()
@@ -130,7 +130,10 @@ class Run:
 
         # Botón para cerrar la ventana emergente
         close_button = ttk.Button(popup, text='Cerrar', command=popup.destroy)
-        close_button.pack() 
+        close_button.pack()
+
+    def run(self):
+        self.root.mainloop()
         
     def validate_multiplicative_fields(self):
         x = self.x_entry.get()
@@ -168,14 +171,6 @@ class Run:
             formatted_ri = f'{Ri:.10f}'
             self.table.insert("", "end", values=(Xi,formatted_ri, Ni))
             # Agregar los puntos al gráfico de dispersión
-            plt.scatter(Xi, Ni, label=f'R{i}')
-    plt.xlabel('Xi')  # Etiqueta del eje x
-    plt.ylabel('Ni')  # Etiqueta del eje y
-    plt.legend()  # Mostrar la leyenda
-    plt.grid(True)  # Activar la cuadrícula
-
-    # Mostrar el gráfico
-    plt.show()
 
     def select_methods(self,method):
         min_value = int(self.min_entry.get())
@@ -226,6 +221,8 @@ def main():
     root = tk.Tk()
     app = Run(root)
     root.mainloop()
+    
+    
 
 if __name__ == "__main__":
     main()
