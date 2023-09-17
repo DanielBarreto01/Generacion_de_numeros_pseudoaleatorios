@@ -104,10 +104,9 @@ class Game:
 
     """Obtiene a todos los arqueros de ambos equipos."""
     def get_archers(self) -> List[archer]:
-
         archers = []
         for team in self.teams:
-            for archer in team.archers():
+            for archer in team.archers:
                 archers.append(archer)
         return archers
 

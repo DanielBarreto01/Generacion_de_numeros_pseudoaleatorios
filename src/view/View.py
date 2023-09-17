@@ -3,14 +3,12 @@ import tkinter as tk
 from tkinter import ttk
 from src.view.graph import Graph
 
-
-
-
 class View:
     """def mostrar_mensaje(self, mensaje):
         print(f"Vista: {mensaje}")"""
 
-    def __init__(self, presenter,lucky_archers,experienced_archers,winning_team,genders_by_game,gender_total_win):
+    def __init__(self, presenter,lucky_archers,experienced_archers,winning_team,genders_by_game,gender_total_win,charr):
+        self.charr= charr
         self.presenter = presenter
         self.root = tk.Tk()
         self.root.title("Montecarlo")
@@ -94,7 +92,7 @@ class View:
         self.root.mainloop()
 
     def button_click(self):
-        graph_window = Graph(self.root)
+        graph_window = Graph(self.root,self.charr)
 
 
 

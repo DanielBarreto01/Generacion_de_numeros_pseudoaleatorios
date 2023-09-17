@@ -74,6 +74,18 @@ class Archer:
         elif 0.93 < random_val <= 1:
             score = Shoot.ERROR.get_score()
         return score
+    
+    def generate_gender(self):
+        return Gender.MALE if self.generator.generateNi() >= 0.5 else Gender.FEMALE
+
+    def generate_resistance(self):
+        return int(self.generator.generateNi() * (45 - 25 + 1)) + 25
+
+    def generate_luck(self):
+        return self.generator.generateNi() * 2 + 1
+    
+    def generate_fatigue(self):
+        return int(self.generator.generateNi() * 2) + 1
 
     def throwing_female(self):
         score = 0
@@ -102,14 +114,7 @@ class Archer:
             self.won_raffles = 1
             self.consecutive_won_raffle_number_round = round_num
 
-    def generate_gender(self):
-        return Gender.MALE if self.generator.generateNi() >= 0.5 else Gender.FEMALE
 
-    def generate_resistance(self):
-        return int(self.generator.generateNi() * (45 - 25 + 1)) + 25
-
-    def generate_luck(self):
-        return self.generator.generateNi() * 2 + 1
 
     def regain_luck(self):
         self.luck = self.generate_luck()
@@ -121,9 +126,7 @@ class Archer:
     def regain_resistance(self):
         self.resistance = self.initial_resistance
 
-    def generate_fatigue(self):
-        return int(self.generator.generateNi() * 2) + 1
-
+ 
     def gain_experience(self):
         self.experience += 3
 
