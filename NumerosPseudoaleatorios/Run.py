@@ -5,7 +5,7 @@ from Models.middle_square import Middle_square
 from Models.UniformDis import Uniform
 from Models.Multiplicative import Multiplicative
 
-class NormalDistributionGenerator:
+class Run:
     
         
     def __init__(self, root):
@@ -141,7 +141,7 @@ class NormalDistributionGenerator:
         
 def main():
     root = tk.Tk()
-    app = NormalDistributionGenerator(root)
+    app = Run(root)
     root.mainloop()
 
 if __name__ == "__main__":
