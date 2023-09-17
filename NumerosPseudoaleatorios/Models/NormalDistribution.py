@@ -12,13 +12,16 @@ class NormalDistribution:
         self.ni_sequence = []
 
     def get_aleatory(self):
+        # Genera números pseudoaleatorios y los devuelve
         self.generate_random()
         return self.aleatory
 
     def generate_random(self):
+        # Genera dos números pseudoaleatorios uniformemente distribuidos en el rango [0, 1)
         while self.quantity > 0:
             u1 = random.random()
             u2 = random.random()
+             # Aplica la transformación de Box-Muller para obtener un número aleatorio con distribución normal
             z0 = math.sqrt(-2 * math.log(u1)) * math.cos(2 * math.pi * u2)
             random_number = self.mu + z0 * self.sigma
             self.aleatory.append(random_number)
@@ -34,12 +37,15 @@ class NormalDistribution:
             self.quantity -= 1
 
     def getXi(self):
+        # Devuelve la secuencia de valores Xi o semillas
         return self.xi_sequence
 
     def getRi(self):
+        # Devuelve la secuencia de valores Ri
         return self.ri_sequence
 
     def getNi(self):
+        # Devuelve la secuencia de valores Ni
         return self.ni_sequence
 
 # Ejemplo de uso
