@@ -101,7 +101,7 @@ class Simulation:
     * @return String.
     */"""
 
-    def obtainWinningTeam(self):
+    def obtain_winning_team(self):
         self.determine_team_winner()
         target_team = None
         target_points = 0
