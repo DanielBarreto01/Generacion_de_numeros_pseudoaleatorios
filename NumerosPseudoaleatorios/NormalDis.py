@@ -108,7 +108,7 @@ class NormalDistributionGenerator:
         for i, (Ni, Ri,Xi) in enumerate(zip(Ni, Ri,Xi), start=1):
             formatted_ri = f'{Ri:.10f}'
             self.table.insert("", "end", values=(Xi,formatted_ri, Ni))
-        
+
 
     def select_methods(self,method):
         min_value = int(self.min_entry.get())
@@ -123,7 +123,7 @@ class NormalDistributionGenerator:
             case "Distribución Uniforme":
                 self.uniform_instance = Uniform(quantity_value, min_value, max_value)
                 self.uniform_instance.generate_random()
-                self.paint_table(self.uniform_instance.aleatory)
+                self.paint_table(self.uniform_instance.get_aleatory(),self.uniform_instance.getrRi(),self.uniform_instance.ni_sequence)
             case "Multiplicativo":
                 x=int(self.x_entry.get())
                 t=int(self.t_entry.get())
