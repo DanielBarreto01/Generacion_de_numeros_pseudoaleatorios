@@ -21,8 +21,7 @@ class View:
         #self.root.state('zoomed')
         #self.root.attributes('-fullscreen', False)  # full screen
 
-        image_path = os.path.join("..", "resources", "9D.gif")
-
+        image_path = os.path.abspath("resources/9D.gif")
         self.image = tk.PhotoImage(file=image_path)
 
         desired_width = 475  # Ancho deseado
