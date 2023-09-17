@@ -17,7 +17,7 @@ class Game:
 
     """Determina el arquero ganador de la ronda."""
     def determine_round_winner_archer(self):
-        winner = None
+        """winner = None
         archer_team_1 = self.teams[0].get_archer_with_higher_scorer()
         archer_team_2 = self.teams[1].get_archer_with_higher_scorer()
 
@@ -25,7 +25,9 @@ class Game:
             winner = self.check_tie(archer_team_1, archer_team_2)
         else:
             winner = archer_team_1 if archer_team_1.round_points > archer_team_2.round_points else archer_team_2
-        winner.gain_experience()
+        winner.gain_experience()"""
+        winner_round_archer = self.check_tie(self.teams[0].get_archer_with_higher_scorer(),self.teams[1].get_archer_with_higher_scorer())
+        winner_round_archer.gain_experience()
 
 
     """Realiza un desempate de arqueros ."""
@@ -38,6 +40,7 @@ class Game:
             shootB = b.individual_launch()
         winner = a if shootA > shootB else b
         winner.increase_won_rounds()
+
         return winner
 
     """Obtiene al arquero individual ganador del juego."""
@@ -50,7 +53,7 @@ class Game:
         """Obtiene al arquero más experimentado de los equipos."""
         archer_one = self.teams[0].obtain_most_experienced_archer()
         archer_thow = self.teams[1].obtain_most_experienced_archer()
-        return archer_one if archer_one.experience() >  archer_thow.experience() else  archer_thow
+        return archer_one if archer_one.experience >  archer_thow.experience else  archer_thow
 
     def determine_team_round_winner(self):
         """Determina al equipo ganador de la ronda."""
@@ -85,7 +88,7 @@ class Game:
 
     """Obtiene la puntuación del equipo en una posición específica."""
     def obtain_team_score(self, position: int) -> int:
-        return self.teams[position].score()
+        return self.teams[position].score
 
     """Obtiene un equipo en una posición específica."""
     def obtain_team(self, position: int) -> team:

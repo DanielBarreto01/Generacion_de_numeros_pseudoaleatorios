@@ -1,62 +1,32 @@
 import secrets
-class Middle_square:
 
+class Middle_square:
     def __init__(self, min, max):
-        self.max = max
+        self.seed = secrets.randbits(64)
         self.min = min
-        self.seed = self.generate_random_number(25)  # Genera un número aleatorio seguro como un long
+        self.max = max
 
     def middle_square(self):
-
-       # random_numbers = []
-       # for i in range(10):
-        # Elevamos la semilla al cuadrado
-        squared = self.seed * self.seed
-            # Convertimos el resultado en una cadena para trabajar con los dígitos
-        squared_str = str(squared)
-            # Aseguramos que la cadena tenga al menos 8 dígitos
-        squared_str = squared_str.zfill(8)
-            # Tomamos los dígitos centrales (de la posición 2 a la 6)
-        middle = squared_str[int((len(squared_str)/2))-2:int((len(squared_str)/2))+2]
-            # Convertimos los dígitos centrales en un número entero
-        new_seed = float(middle)/10000.0
-            # Guardamos el nuevo número en la lista de números aleatorios
-            #random_numbers.append(new_seed)
-            # La semilla para la próxima iteración es el nuevo número
-        self.seed = int (middle)
-        return new_seed
-    def generate_random_number(self, size):
-        if size <= 0:
-            raise ValueError("El tamaño debe ser mayor que cero")
-
-        # Generar bytes aleatorios usando secrets
-        num_bytes = (size + 7) // 8  # Calcula la cantidad de bytes necesarios
-        random_bytes = secrets.token_bytes(num_bytes)
-
-        # Convierte los bytes en un número entero
-        random_number = int.from_bytes(random_bytes, byteorder='big')
-
-        # Ajusta el tamaño si es necesario
-        random_number = random_number % (2 ** size)
-
-        return random_number
-
+        # Calculate the square of the seed
+        square = self.seed * self.seed
+        # Convert the square to a string with leading zeros
+        square_str = str(square).zfill(12)
+        # Get the length of the string and calculate the indices
+        size = len(square_str)
+        start = int(((size) / 2)-2)
+        end = start + 4
+        # Extract the characters representing the middle number
+        number_str = square_str[start:end]
+        # Convert the string to a numeric value and divide it by 10000 to get a number
+        # in the range [0, 1)
+        number = float(number_str) / 10000.0
+        # Update the seed for the next iteration
+        self.seed = int(square_str[2:10])
+        return number
     def generateNi(self):
-        return self.min + (self.max - self.min) * self.middle_square();
+        return self.min + (self.max - self.min) * self.middle_square()
 
-# Ejemplo de cómo generar un número de 16 bits (2 bytes)
-"""random_num = generate_random_number(16)
-print(random_num)s"" 
-
-# Semilla inicial y cantidad de números pseudoaleatorios a generar
-seed = 1234
-n = 10
-
-# Generar la secuencia de números pseudoaleatorios
-random_sequence = middle_square(seed, n)
-
-# Imprimir la secuencia generada
-print(random_sequence)"""
-
-"""m = Middle_square(10,100)
-print(m.generateNi())"""
+# Ejemplo de uso:
+ms = Middle_square(0, 100)
+numero_generado = ms.middle_square()
+print(numero_generado)

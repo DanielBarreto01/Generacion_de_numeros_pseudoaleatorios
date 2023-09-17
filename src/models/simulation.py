@@ -1,6 +1,7 @@
 from typing import List, Any
 
-from src.models import archer, game, Gender
+from src.models import archer, game
+from src.models.Gender import Gender
 from src.models import team
 
 
@@ -12,8 +13,8 @@ class Simulation:
         self.total_points_team1 = 0
         self.total_points_team2 = 0
         self.init_simulation(games)
-        self.team1 = None
-        self.team2 = None
+        self.team1
+        self.team2
 
 
     #Método initTeams void que inicializa cada equipo desde cero.
@@ -55,7 +56,7 @@ class Simulation:
                 self.count_won_rounds_male += 1
             else:
                 self.count_won_rounds_female += 1
-        return Gender.Gender().MAlE if self.count_won_rounds_male > self.count_won_rounds_female else Gender.Gender().FEMALE
+        return Gender.MAlE if self.count_won_rounds_male > self.count_won_rounds_female else Gender.FEMALE
 
         """/**
         *
@@ -109,12 +110,13 @@ class Simulation:
         target_points = 0
         if self.total_points_team1 > self.total_points_team2:
             target_team = self.team1
+            print("ffeeef")
             target_points = self.total_points_team1
         else:
             target_team = self.team2
+            print(f"fff  {type(target_team)}")
             target_points = self.total_points_team2
-
-        return  f"TEAM  {target_team.get_code}  with  {target_points:,} points";
+        return  f"TEAM  {target_team.code}  with  {target_points:,} points";
 
     """/**
     *

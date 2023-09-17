@@ -7,3 +7,6 @@ class Gender(Enum):
 
     def __init__(self, gender):
         self.gender = gender
+
+    def get_gender(self):
+        return self.gender

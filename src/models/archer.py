@@ -7,7 +7,7 @@ class Archer:
     def __init__(self, codigo):
         self.generator = middle_square.Middle_square(0 ,1)
         self.code = codigo;
-        self.gender = self.generate_gender()
+        self.gender:Gender = self.generate_gender()
         self.initial_resistance = self.generate_resistance()
         self.resistance = self.initial_resistance
         self.experience = 10;
@@ -60,7 +60,7 @@ class Archer:
         self.regain_luck()
 
     def individual_launch(self):
-        return self.throwing_male() if self.gender == 'MALE' else self.throwing_female()
+        return self.throwing_male() if self.gender.get_gender() == 'M' else self.throwing_female()
 
     def throwing_male(self):
         score = 0
@@ -103,7 +103,7 @@ class Archer:
             self.consecutive_won_raffle_number_round = round_num
 
     def generate_gender(self):
-        return 'MALE' if self.generator.generateNi() >= 0.5 else 'FEMALE'
+        return Gender.MALE if self.generator.generateNi() >= 0.5 else Gender.FEMALE
 
     def generate_resistance(self):
         return int(self.generator.generateNi() * (45 - 25 + 1)) + 25

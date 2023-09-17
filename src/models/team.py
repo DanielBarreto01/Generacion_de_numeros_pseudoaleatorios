@@ -65,7 +65,7 @@ class Team:
     def obtain_most_experienced_archer(self) -> archer:
         most_experienced_archer = self.archers[0]
         for archer in self.archers[1:]:
-            if archer.experience() > most_experienced_archer.experience():
+            if archer.experience > most_experienced_archer.experience:
                 most_experienced_archer = archer
         return most_experienced_archer
 
