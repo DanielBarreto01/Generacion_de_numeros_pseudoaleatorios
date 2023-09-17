@@ -35,9 +35,13 @@ class PseudoRandomValidatorApp:
         self.canvas = tk.Canvas(self.root, width=400, height=300)
         self.canvas.pack()
 
-        # Tabla para mostrar los resultados
-        self.result_table = tk.Text(self.root, height=10, width=40)
-        self.result_table.pack()
+        # Tabla para mostrar los resultados de la prueba de medias
+        self.result_table_mean = tk.Text(self.root, height=10, width=40)
+        self.result_table_mean.pack()
+
+        # Tabla para mostrar los resultados de la prueba de varianza
+        self.result_table_variance = tk.Text(self.root, height=10, width=40)
+        self.result_table_variance.pack()
 
     def load_file(self):
         # Abrir un cuadro de diálogo para seleccionar un archivo CSV
@@ -58,6 +62,8 @@ class PseudoRandomValidatorApp:
 
         if selected_test == "Prueba de Medias":
             self.run_mean_test_and_display()
+        elif selected_test == "Prueba de Varianza":
+            self.run_variance_test_and_display()
         # Resto de las pruebas aquí ...
 
     def run_mean_test_and_display(self):
@@ -68,12 +74,9 @@ class PseudoRandomValidatorApp:
         mean = np.mean(self.random_numbers)
         result = f"Media: {mean:.4f}"
 
-        # Mostrar el resultado en el gráfico
-        self.plot_result(result)
-
-        # Mostrar el resultado en la tabla
-        self.result_table.delete("1.0", "end")  # Borrar contenido anterior
-        self.result_table.insert("end", result)
+        # Mostrar el resultado en la tabla de medias
+        self.result_table_mean.delete("1.0", "end")  # Borrar contenido anterior
+        self.result_table_mean.insert("end", result)
 
         # Crear y mostrar la tabla con tres columnas: "Numero", "Ni", "Normalizados"
         table_data = []
@@ -84,18 +87,44 @@ class PseudoRandomValidatorApp:
         table_headers = ["Numero", "Ni", "Normalizados"]
         table_df = pd.DataFrame(table_data, columns=table_headers)
 
-        self.result_table.insert("end", "\nTabla de Datos:\n")
-        self.result_table.insert("end", table_df.to_string(index=False))
+        self.result_table_mean.insert("end", "\nTabla de Datos:\n")
+        self.result_table_mean.insert("end", table_df.to_string(index=False))
 
         # Mostrar el banner con información de aceptación y alfa
-        alpha = 0.05  # Cambiar esto según  nivel de confianza
-        self.result_table.insert("end", f"\n\nNivel de confianza (alfa): {alpha}\n")
-        self.result_table.insert("end", "Resultado de Aceptación: ")
+        alpha = 0.05  # Cambia esto según  nivel de confianza
+        self.result_table_mean.insert("end", f"\n\nNivel de confianza (alfa): {alpha}\n")
+        self.result_table_mean.insert("end", "Resultado de Aceptación: ")
 
         if mean < (1 - alpha / 2) and mean > alpha / 2:
-            self.result_table.insert("end", "Aceptado")
+            self.result_table_mean.insert("end", "Aceptado")
         else:
-            self.result_table.insert("end", "Rechazado")
+            self.result_table_mean.insert("end", "Rechazado")
+
+    def run_variance_test_and_display(self):
+        if not hasattr(self, 'random_numbers'):
+            return
+
+        # Realizar la prueba de varianza
+        variance = np.var(self.random_numbers)
+        n = len(self.random_numbers)
+
+        # Calcular los valores críticos para la prueba de varianza
+        alpha = 0.05  # Nivel de confianza (puedes ajustarlo según tus necesidades)
+        chi2_left = stats.chi2.ppf(alpha / 2, df=n - 1)
+        chi2_right = stats.chi2.ppf(1 - alpha / 2, df=n - 1)
+
+        result = f"Varianza: {variance:.4f}\nN: {n}\n"
+        result += f"Chi2 izquierdo: {chi2_left:.4f}\nChi2 derecho: {chi2_right:.4f}\n"
+
+        # Comprobar si la varianza es aceptada o rechazada
+        if chi2_left <= (n - 1) * variance <= chi2_right:
+            result += "Resultado: Aceptado"
+        else:
+            result += "Resultado: Rechazado"
+
+        # Mostrar el resultado en la tabla de varianza
+        self.result_table_variance.delete("1.0", "end")  # Borrar contenido anterior
+        self.result_table_variance.insert("end", result)
 
     # Resto de los métodos de prueba aquí ...
 
