@@ -20,7 +20,6 @@ class Graph:
         self.x1 = [i+1 for i in range(len(self.y1))]
         self.h()
         self.graph()
-        print("mamamma")
 
         popup_text = tk.Text(self.window, wrap="word")
         popup_text.pack(fill="both", expand=True, padx=10, pady=10)
@@ -53,8 +52,6 @@ class Graph:
                 case 10:
                     self.y10.append(aux_archer.get_points())
 
-        print(self.y1)
-        print(self.x)
     def h(self):
         print(self.x1)
 
