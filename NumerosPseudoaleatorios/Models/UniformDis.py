@@ -19,7 +19,7 @@ class Uniform:
 
 """if __name__ == "__main__":
     min_value = 0  
-    max_value = 10  
+    max_value = 1 
     quantity = 10  
     uniform_generator = Uniform(quantity, min_value, max_value)
     aleatory_numbers = uniform_generator.get_aleatory()
