@@ -1,5 +1,10 @@
 import pandas as pd
 import scipy.stats as stats
+import tkinter as tk
+from tkinter import ttk
+
+root = tk.Tk()
+root.title("Tabla poker Test")
 
 def truncar_a_5_digitos(numero):
     return round(numero, 5)
@@ -87,4 +92,34 @@ if(total < critical_value):
     print ("No se rechaza la hipotesis nula")
 else:
     print ("Se rechaza la hipotesis nula")
+    
+table = ttk.Treeview(root, columns=list(tabla.columns), show="headings")
+table.column("Categoria", width="100")
+table.column("Oi", width="60")
+table.column("probabilidad", width="100")
+table.column("Ei", width="100")
+table.column("(Ei-Oi)^2/Ei", width="150")
 
+# Configurar encabezados de columnas
+for col in tabla.columns:
+    table.heading(col, text=col)
+
+# Agregar filas de datos a la tabla
+for i, row in tabla.iterrows():
+    table.insert('', 'end', values=list(row))
+
+# Colocar la tabla en la ventana
+table.grid(row=0, column=0, padx=10, pady=10)
+
+# ... (tu código existente) ...
+
+# Función para cerrar la ventana cuando se haga clic en el botón de "Cerrar"
+def cerrar_ventana():
+    root.destroy()
+
+# Botón para cerrar la ventana
+boton_cerrar = ttk.Button(root, text="Cerrar", command=cerrar_ventana)
+boton_cerrar.grid(row=1, column=0, padx=10, pady=10)
+
+# Ejecutar la aplicación de Tkinter
+root.mainloop()
