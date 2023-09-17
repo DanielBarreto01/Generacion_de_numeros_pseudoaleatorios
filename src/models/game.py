@@ -77,9 +77,9 @@ class Game:
         countLuckArcherTeam2 = self.teams[1].obtain_most_luck_archer()
         return (
             countLuckArcherTeam1
-            if countLuckArcherTeam1.count_luck() == countLuckArcherTeam2.count_luck()
+            if countLuckArcherTeam1.count_luck == countLuckArcherTeam2.count_luck
             else countLuckArcherTeam1
-            if countLuckArcherTeam1.count_luck() > countLuckArcherTeam2.count_luck()
+            if countLuckArcherTeam1.count_luck > countLuckArcherTeam2.count_luck
             else countLuckArcherTeam2
         )
 

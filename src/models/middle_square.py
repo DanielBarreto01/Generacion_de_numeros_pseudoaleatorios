@@ -14,10 +14,8 @@ class Middle_square:
         squared = self.seed * self.seed
             # Convertimos el resultado en una cadena para trabajar con los dígitos
         squared_str = str(squared)
-        print(squared, "     ",len(squared_str))
             # Aseguramos que la cadena tenga al menos 8 dígitos
         squared_str = squared_str.zfill(8)
-        print(squared_str)
             # Tomamos los dígitos centrales (de la posición 2 a la 6)
         middle = squared_str[int((len(squared_str)/2))-2:int((len(squared_str)/2))+2]
             # Convertimos los dígitos centrales en un número entero
@@ -60,5 +58,5 @@ random_sequence = middle_square(seed, n)
 # Imprimir la secuencia generada
 print(random_sequence)"""
 
-m = Middle_square(10,100)
-print(m.generateNi())
+"""m = Middle_square(10,100)
+print(m.generateNi())"""

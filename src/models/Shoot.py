@@ -13,7 +13,3 @@ class Shoot(Enum):
 
     def get_score(self):
         return self.score;
-
-
-jj = Shoot(10)
-print(Shoot.OUTSIDE.get_score())

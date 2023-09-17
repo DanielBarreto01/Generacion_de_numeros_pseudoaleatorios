@@ -101,14 +101,12 @@ class Team:
     def obtain_most_luck_archer(self) -> archer:
         most_luck_archer = self.archers[0]
         for archer in self.archers[1:]:
-            if archer.count_luck() > most_luck_archer.count_luck():
+            if archer.count_luck > most_luck_archer.count_luck:
                 most_luck_archer = archer
         return most_luck_archer
 
 
-
-
-# Crear instancias de Archer
+"""# Crear instancias de Archer
 archer1 = archer.Archer(0.8)
 archer2 = archer.Archer(0.9)
 archer3 = archer.Archer(0.7)
@@ -125,4 +123,4 @@ lucky_archer = team.get_lucky_archer()
 if lucky_archer:
     print(f"El arquero más afortunado tiene una suerte de {lucky_archer.get_luck()}")
 else:
-    print("No se encontró ningún arquero afortunado en el equipo.")
+    print("No se encontró ningún arquero afortunado en el equipo.")"""
