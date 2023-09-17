@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import math
 import tkinter as tk
 from tkinter import ttk
-
+from tkinter import Label
 # Ingresa tus valores de conjunto de datos
 data = [0.9634731371579395, 0.8846470279646376, 0.7266874660722045, 0.35868355450366385, 0.3402934242066663, 0.2699767328916134, 0.31722243341888456, 0.5614001017785968, 0.8342195117324919, 0.7615286765340064]
 total_datos = data.__len__()
@@ -98,7 +98,7 @@ for i, row in data_table.iterrows():
 # Colocar la tabla en la ventana
 table.grid(row=0, column=0, padx=10, pady=10)
 
-# ... (tu código existente) ...
+
 
 # Función para cerrar la ventana cuando se haga clic en el botón de "Cerrar"
 def cerrar_ventana():
@@ -107,6 +107,25 @@ def cerrar_ventana():
 # Botón para cerrar la ventana
 boton_cerrar = ttk.Button(root, text="Cerrar", command=cerrar_ventana)
 boton_cerrar.grid(row=1, column=0, padx=10, pady=10)
+
+# Después de crear la tabla y antes de configurar el botón "Cerrar"
+
+# Etiqueta para mostrar el resultado de (Ei-Oi)^2/Ei
+resultado_label = Label(root, text=f"El total(Ei-Oi)^2/Ei es :  {total}")
+resultado_label.grid(row=2, column=0, padx=10, pady=10)
+
+# Etiqueta para mostrar el valor de Chi^2
+chi2_label = Label(root, text=f"Chi^2 : {critical_value}")
+chi2_label.grid(row=3, column=0, padx=10, pady=10)
+
+# Etiqueta para mostrar si se rechaza o no la hipótesis nula
+if total < critical_value:
+    veredicto_label = Label(root, text="No se rechaza la hipotesis nula")
+else:
+    veredicto_label = Label(root, text="Se rechaza la hipotesis nula")
+
+veredicto_label.grid(row=4, column=0, padx=10, pady=10)
+
 
 # Ejecutar la aplicación de Tkinter
 root.mainloop()

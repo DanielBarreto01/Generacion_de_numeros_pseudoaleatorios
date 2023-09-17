@@ -4,9 +4,21 @@ from scipy.stats import ksone
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
+from tkinter import Label
 
+class ks:
+    def __init__(self, data):
+        self.data = data
+        
+        
+
+root = tk.Tk()
+root.title("Tabla KS Test")
+
+# Función para cargar un archivo CSV
+data = [0.8294, 0.7904, 0.4732, 0.3918, 0.3507, 0.299, 0.9401, 0.3788, 0.3489, 0.1731]
 # Ingresa tus valores de conjunto de datos
-data = [-0.9634731371579395, 0.8846470279646376, 0.7266874660722045, 0.35868355450366385, 0.3402934242066663, 0.2699767328916134, 0.31722243341888456, 0.5614001017785968, 0.8342195117324919, 0.7615286765340064]
 
 # Define el número de intervalos
 num_intervals = 10
@@ -67,8 +79,7 @@ def calcular_valores_criticos_ks(alpha, n):
     
     return valor_critico
 
-root = tk.Tk()
-root.title("Tabla KS Test")
+
 
 # Crea un DataFrame de Pandas para mostrar el procedimiento
 data_table = pd.DataFrame({
@@ -106,19 +117,6 @@ if(d_max < valor_critico):
 else:
     print("Se rechaza la hipótesis nula")
     
-# Crea una figura y un eje
-fig, ax = plt.subplots(figsize=(15, 12))
-col_widths = [0.1, 0.3, 0.2, 0.3]
-
-# Oculta los ejes
-ax.axis('off')
-
-# Muestra la tabla como una tabla de texto en la figura
-ax.table(cellText=data_table.values, colLabels=data_table.columns, cellLoc='center', loc='center')
-
-# Guarda la figura como una imagen
-plt.savefig('tabla_resultados.png', bbox_inches='tight', pad_inches=0.1)    
-    
 
 # Crear un widget Treeview de Tkinter para mostrar la tabla
 table = ttk.Treeview(root, columns=list(data_table.columns), show="headings")
@@ -143,7 +141,6 @@ for i, row in data_table.iterrows():
 # Colocar la tabla en la ventana
 table.grid(row=0, column=0, padx=10, pady=10)
 
-# ... (tu código existente) ...
 
 # Función para cerrar la ventana cuando se haga clic en el botón de "Cerrar"
 def cerrar_ventana():
@@ -153,5 +150,27 @@ def cerrar_ventana():
 boton_cerrar = ttk.Button(root, text="Cerrar", command=cerrar_ventana)
 boton_cerrar.grid(row=1, column=0, padx=10, pady=10)
 
+
+critico_label = Label(root, text=f"Valor crítico KS para alpha={alpha} y n={n}: {valor_critico}")
+critico_label.grid(row=3, column=0, padx=10, pady=10)
+
+dmax_label = Label(root, text=f"DMAX: {d_max}")
+dmax_label.grid(row=4, column=0, padx=10, pady=10)
+
+if(d_max < valor_critico):
+    veredicto_label = Label(root, text="No se rechaza la hipótesis nula")
+else:
+    veredicto_label = Label(root, text="Se rechaza la hipótesis nula")
+    
+veredicto_label.grid(row=5, column=0, padx=10, pady=10)
+
+
+
 # Ejecutar la aplicación de Tkinter
 root.mainloop()
+
+if __name__ == "__main__":
+
+    root = tk.Tk()
+    app = ks(root, data)
+

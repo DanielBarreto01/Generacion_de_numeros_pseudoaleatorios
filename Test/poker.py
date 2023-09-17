@@ -1,8 +1,8 @@
-import pandas as pd
-import scipy.stats as stats
 import tkinter as tk
 from tkinter import ttk
-
+from tkinter import filedialog
+import pandas as pd
+import scipy.stats as stats
 root = tk.Tk()
 root.title("Tabla poker Test")
 
@@ -46,26 +46,7 @@ def contar_cantidad_categorias(numeros):
 
 # Example usage
 
-numeros = [1.708585842,
-0.3343438948,
-0.9104974197,
-0.1973000963,
-1.702692316,
--0.04549406185,
-0.1208934464,
--1.615208021,
--2.252472768,
--0.1090347723,
--0.1816454187,
--0.5452386631,
-0.7814765013,
--0.5381525625,
-0.2621891326,
--0.6301740996,
-0.4062064818,
--0.1194302968,
--0.4284061106,
-0.9084146768]
+numeros = [1,2,87]
 
 
 print(f"cantidad numeros: {len(numeros)}")
@@ -77,6 +58,7 @@ resultado = contar_cantidad_categorias(numeros)
 tabla = pd.DataFrame({"Categoria": resultado.keys(), "Oi": resultado.values()})
 # Add the "probabilidad" column
 tabla["probabilidad"] = [0.504, 0.108, 0.072, 0.009, 0.0045, 0.0001, 0.3024]
+##################################
 tabla["Ei"] = tabla["probabilidad"] * cantNum
 tabla["(Ei-Oi)^2/Ei"] = ((tabla["Ei"] - tabla["Oi"]) ** 2) / tabla["Ei"]
 
@@ -111,7 +93,6 @@ for i, row in tabla.iterrows():
 # Colocar la tabla en la ventana
 table.grid(row=0, column=0, padx=10, pady=10)
 
-# ... (tu código existente) ...
 
 # Función para cerrar la ventana cuando se haga clic en el botón de "Cerrar"
 def cerrar_ventana():
@@ -120,6 +101,19 @@ def cerrar_ventana():
 # Botón para cerrar la ventana
 boton_cerrar = ttk.Button(root, text="Cerrar", command=cerrar_ventana)
 boton_cerrar.grid(row=1, column=0, padx=10, pady=10)
+
+resultado_label = tk.Label(root, text=f"El total(Ei-Oi)^2/Ei es :  {total}")
+resultado_label.grid(row=2, column=0, padx=10, pady=10)
+
+chi2_label = tk.Label(root, text=f"Chi^2 : {critical_value}")
+chi2_label.grid(row=3, column=0, padx=10, pady=10)
+
+if(total < critical_value):
+    veredicto_label = tk.Label(root, text="No se rechaza la hipótesis nula")
+else:
+    veredicto_label = tk.Label(root, text="Se rechaza la hipótesis nula")
+    
+veredicto_label.grid(row=4, column=0, padx=10, pady=10)
 
 # Ejecutar la aplicación de Tkinter
 root.mainloop()
