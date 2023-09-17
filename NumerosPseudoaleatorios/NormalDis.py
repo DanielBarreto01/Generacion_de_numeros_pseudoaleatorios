@@ -49,9 +49,9 @@ class NormalDistributionGenerator:
     
         self.generate_button = ttk.Button(root, text="Generar", command=lambda: self.select_methods(self.metodo_metod.get()))
 
-        self.table = ttk.Treeview(root, columns=("i", "Ri", "Ni"))
+        self.table = ttk.Treeview(root, columns=("Xi", "Ri", "Ni"))
         self.table.heading("#0", text="")
-        self.table.heading("#1", text="i")
+        self.table.heading("#1", text="Xi")
         self.table.heading("#2", text="Ri")
         self.table.heading("#3", text="Ni")
     
@@ -93,7 +93,7 @@ class NormalDistributionGenerator:
         
         
     
-    def paint_table(self,list_numbers):
+    def paint_table(self,Xi,Ri,Ni):
         # Elimina las filas de la tabla
         for row in self.table.get_children():
             self.table.delete(row)
@@ -103,37 +103,31 @@ class NormalDistributionGenerator:
             self.table.item(row, column=2, values="")
             self.table.item(row, column=3, values="")
 
-        valores_divididos = []
-        for i, num in enumerate(list_numbers, start=1):
-            valor_dividido = int(num) / 10000  # Divide el número por 10000
-            valores_divididos.append(str(valor_dividido))
-
         # Mostrar los números en la tabla
         # Mostrar los números en la tabla
-        for i, (num, valor_dividido) in enumerate(zip(list_numbers, valores_divididos), start=1):
-            self.table.insert("", "end", values=(i,valor_dividido, num))
-
-        print(list_numbers, "numeros semilla")
-        print(valores_divididos, "valores divididos")
+        for i, (Ni, Ri,Xi) in enumerate(zip(Ni, Ri,Xi), start=1):
+            formatted_ri = f'{Ri:.10f}'
+            self.table.insert("", "end", values=(Xi,formatted_ri, Ni))
+        
 
     def select_methods(self,method):
         min_value = int(self.min_entry.get())
         max_value = int(self.max_entry.get())
         quantity_value = int(self.quantity_entry.get())
-        x=int(self.x_entry.get())
-        t=int(self.t_entry.get())
-        g=int(self.g_entry.get())
 
         match method:
             case "Cuadrados Medios":
                 self.middle_square_instance = Middle_square(min_value, max_value, quantity_value)
-                n=self.middle_square_instance.middle_square()
-                self.paint_table(n)
+                ni=self.middle_square_instance.middle_square()
+                self.paint_table(self.middle_square_instance.getXi(),self.middle_square_instance.getRi(),ni)
             case "Distribución Uniforme":
                 self.uniform_instance = Uniform(quantity_value, min_value, max_value)
                 self.uniform_instance.generate_random()
                 self.paint_table(self.uniform_instance.aleatory)
             case "Multiplicativo":
+                x=int(self.x_entry.get())
+                t=int(self.t_entry.get())
+                g=int(self.g_entry.get())
                 self.multiplicative_instance = Multiplicative(x, t, g, quantity_value)
                 n=self.multiplicative_instance.get_aleatory()
                 self.paint_table(n)
