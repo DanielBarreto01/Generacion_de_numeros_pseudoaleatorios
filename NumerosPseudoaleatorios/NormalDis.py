@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 import random
-import Methods
 from Models.middle_square import Middle_square
 from Models.UniformDis import Uniform
 from Models.Multiplicative import Multiplicative
@@ -45,7 +44,7 @@ class NormalDistributionGenerator:
         self.g_entry = ttk.Entry(root)
 
         self.metodo = ttk.Label(root, text="Metodo de Generacion")
-        self.metodo_metod = ttk.Combobox(root, values=["Cuadrados Medios", "Multiplicativo", "Distribución Uniforme","distribución normal"])
+        self.metodo_metod = ttk.Combobox(root, values=["Cuadrados Medios", "Multiplicativo", "Distribución Uniforme","Distribución Normal"])
     
         self.generate_button = ttk.Button(root, text="Generar", command=lambda: self.select_methods(self.metodo_metod.get()))
 
@@ -131,6 +130,7 @@ class NormalDistributionGenerator:
                 self.multiplicative_instance = Multiplicative(x, t, g, quantity_value)
                 n=self.multiplicative_instance.get_aleatory()
                 self.paint_table(n)
+            case "Distribución Normal":
                 pass
             case _:
                 print("Método no válido")
