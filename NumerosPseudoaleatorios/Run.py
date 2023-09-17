@@ -29,7 +29,7 @@ class Run:
         # Configura la geometría de la ventana
         root.geometry(f"{window_width}x{window_height}+{x}+{y}")
         self.root = root
-        self.root.title("Generador de Distribución Normal")
+        self.root.title("Generador numeros Pseudoaletorios")
         self.root.resizable(False, False)
 
         # Crear etiquetas y campos de entrada
