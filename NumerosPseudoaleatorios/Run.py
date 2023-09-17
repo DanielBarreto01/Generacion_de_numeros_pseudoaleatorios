@@ -13,9 +13,8 @@ class Run:
     
         
     def __init__(self, root):
-       # self.methodos_instacnce=Methods.Methods()
-        
-          # Calcula el ancho y alto de la pantalla
+   
+        # Cpnfigura la ventana principal
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
 
@@ -29,7 +28,7 @@ class Run:
         # Configura la geometría de la ventana
         root.geometry(f"{window_width}x{window_height}+{x}+{y}")
         self.root = root
-        self.root.title("Generador de Distribución Normal")
+        self.root.title("Generador numeros Pseudoaletorios")
         self.root.resizable(False, False)
 
         # Crear etiquetas y campos de entrada
@@ -57,6 +56,7 @@ class Run:
         self.generate_button = ttk.Button(root, text="Generar", command=lambda: self.select_methods(self.metodo_metod.get()))
         self.show_button = ttk.Button(root, text='Mostrar Gráfica', command=self.show_plot)
 
+        #crear tabla
         self.table = ttk.Treeview(root, columns=("Xi", "Ri", "Ni"))
         self.table.heading("#0", text="")
         self.table.heading("#1", text="Xi")
@@ -67,7 +67,7 @@ class Run:
         self.table.column("#1", width=265, anchor="center")
         self.table.column("#2", width=265, anchor="center")
         self.table.column("#3", width=270, anchor="center")
-
+        #centrar elementos
         self.center_elements()
 
     def center_elements(self):
