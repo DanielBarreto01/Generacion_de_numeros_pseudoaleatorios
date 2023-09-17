@@ -106,23 +106,22 @@ class Run:
 
         self.table.grid(row=10, column=0, columnspan=2, padx=20, pady=5, sticky="nsew")
 
-    def show_plot():
-    # Crear datos de ejemplo (reemplaza esto con tus propios datos)
-        x = [1, 2, 3, 4, 5]
-        y = [2, 4, 1, 7, 5]
+    def show_plot(self,datos,name):
+        # Obtener datos de ejemplo para la gráfica (reemplaza esto con tus propios datos)
+        x = datos  # Datos en el eje X
+        y = datos  # Datos en el eje Y
 
-    # Crear una figura de Matplotlib
+        # Crear una figura de Matplotlib
         fig, ax = plt.subplots()
-        ax.plot(x, y, label='Datos de ejemplo')
+        ax.scatter(x, y, label=name, marker='o', s=30)  # Gráfica de dispersión
         ax.set_xlabel('Eje X')
         ax.set_ylabel('Eje Y')
-        ax.set_title('Gráfica de Ejemplo')
+        ax.set_title('Gráfica de Dispersión')
         ax.legend()
-
         # Crear una ventana emergente para la gráfica
         popup = tk.Toplevel()
-        popup.title('Gráfica')
-    
+        popup.title(name)
+
         # Agregar la gráfica a la ventana emergente
         canvas = FigureCanvasTkAgg(fig, master=popup)
         canvas_widget = canvas.get_tk_widget()
@@ -130,7 +129,10 @@ class Run:
 
         # Botón para cerrar la ventana emergente
         close_button = ttk.Button(popup, text='Cerrar', command=popup.destroy)
-        close_button.pack() 
+        close_button.pack()
+
+    def run(self):
+        self.root.mainloop()
         
     def validate_multiplicative_fields(self):
         x = self.x_entry.get()
@@ -168,14 +170,6 @@ class Run:
             formatted_ri = f'{Ri:.10f}'
             self.table.insert("", "end", values=(Xi,formatted_ri, Ni))
             # Agregar los puntos al gráfico de dispersión
-            plt.scatter(Xi, Ni, label=f'R{i}')
-    plt.xlabel('Xi')  # Etiqueta del eje x
-    plt.ylabel('Ni')  # Etiqueta del eje y
-    plt.legend()  # Mostrar la leyenda
-    plt.grid(True)  # Activar la cuadrícula
-
-    # Mostrar el gráfico
-    plt.show()
 
     def select_methods(self,method):
         min_value = int(self.min_entry.get())
@@ -187,10 +181,12 @@ class Run:
                 self.middle_square_instance = Middle_square(min_value, max_value, quantity_value)
                 ni=self.middle_square_instance.middle_square()
                 self.paint_table(self.middle_square_instance.getXi(),self.middle_square_instance.getRi(),ni)
+                self.show_plot(ni,"Cuadrados Medios")
             case "Distribución Uniforme":
                 self.uniform_instance = Uniform(quantity_value, min_value, max_value)
                 self.uniform_instance.generate_random()
                 self.paint_table(self.uniform_instance.get_aleatory(),self.uniform_instance.getrRi(),self.uniform_instance.ni_sequence)
+                self.show_plot(self.uniform_instance.ni_sequence,"Cuadrados Medios")
             case "Multiplicativo":
                 if not self.validate_multiplicative_fields():
                     return
@@ -199,10 +195,12 @@ class Run:
                 g=int(self.g_entry.get())
                 self.multiplicative_instance = Multiplicative(x, t, g, quantity_value)
                 self.paint_table(self.multiplicative_instance.get_seeds(),self.multiplicative_instance.getRi(),self.multiplicative_instance.get_aleatory())
+                self.show_plot(self.multiplicative_instance.get_aleatory(),"Multiplicativo")
             case "Distribución Normal":
                 self.normal_distribution_instance = NormalDistribution(min_value, max_value, quantity_value)
                 self.normal_distribution_instance.generate_random()
                 self.paint_table(self.normal_distribution_instance.get_aleatory(),self.normal_distribution_instance.getRi(),self.normal_distribution_instance.getNi())
+                self.show_plot(self.normal_distribution_instance.getNi(),"Distribución Normal")
             case "Congruencia lineal":
                 if not self.validate_multiplicative_fields_line():
                     return
@@ -214,18 +212,18 @@ class Run:
                 self.linear_instance = Linear(x, k, c, g, quantity_value,min_value,max_value)
                 self.linear_instance.get_aleatory()
                 self.paint_table(self.linear_instance.get_seeds(),self.linear_instance.getRi(),self.linear_instance.getNi())
+                self.show_plot(self.linear_instance.getNi(),"Congruencia lineal")
                 pass
             case _:
                 print("Método no válido")
-
-        
-                print(min_value, max_value, quantity_value, method)
         print("entre selec metodos")
         
 def main():
     root = tk.Tk()
     app = Run(root)
     root.mainloop()
+    
+    
 
 if __name__ == "__main__":
     main()
